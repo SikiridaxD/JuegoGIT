@@ -107,10 +107,10 @@ function goFight() {
   
 function attack() {
     text.innerText += "The " + monsters[fighting].name + " attacks.\n";
-    text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".\n";
     let monsterDamage=getMonsterAttackValue();
     health -= monsterDamage;
     text.innerText += "You suffer " + monsterDamage + " points of damage\n";
+    text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".\n";    
     let isHit = isMonsterHit();
     if (isHit && isCrit()) {
       let damage = weaponDamage() + weaponDamage();

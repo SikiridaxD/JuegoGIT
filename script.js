@@ -1,11 +1,12 @@
 let xp = 0;
-let health = 100;
+let health = 0;
 let gold = 5000;
-let mana=20;
+let mana = 0;
 let currentWeapon = 0;
 let fighting;
 let monsterHealth;
 let inventory = ["stick"];
+let currentHero;
 
 //Buttons
 const button1 = document.querySelector('#button1');
@@ -80,7 +81,7 @@ const locations = [
     name: "tavern",
     "button text": ["Hire warrior", "Hire mage", "Hire elf", "Go to town square"],
     "button functions": [hireWarrior, hireMage, hireElf, goTown],
-    text: "You are in the town square. You see a sign that says \"Store\".\n"
+    text: "You are in the tavern. You see a some heros.\n"
   },
   {
     name: "store",
@@ -96,8 +97,8 @@ const locations = [
   },
   {
     name: "fight",
-    "button text": ["Attack", "Special", "dummy," "Run"],
-    "button functions": [attack, special, dummyFun, goTown],
+    "button text": ["Attack", "Special", "Use potion", "Run"],
+    "button functions": [attack, special, usePotion, goTown],
     text: "You are fighting a monster.\n"
   },
   {
@@ -120,6 +121,32 @@ const locations = [
   },
 ];
 
+//Hire functions
+function hire(hero){
+  heroUsed = heros[hero].name;
+  classText.innerText =  heroUsed;
+  health = heros[hero].healthMax;
+  healthText.innerText = health; 
+  mana = heros[hero].mana;
+  manaText.innerText = mana;
+  text.innerText += heroUsed + " hired\n";
+}
+
+function hireWarrior(){
+  currentHero = 0;
+  hire(currentHero);
+}
+
+function hireMage(){
+  currentHero = 1;
+  hire(currentHero);
+}
+
+function hireElf(){
+  currentHero = 2;
+  hire(currentHero);
+}
+
 //Funciones de viaje
 function goTown() {
   update(locations[0]);
@@ -130,7 +157,6 @@ function goTavern() {
   update(locations[1]);
   scrollA();
 }
-
 
 function goStore() {
   update(locations[2]);
@@ -144,21 +170,25 @@ function goCave() {
 
 // initialize buttons
 button1.onclick = goStore;
-button2.onclick = goCave;
-button3.onclick = fightDragon;
+button2.onclick = goTavern;
+button3.onclick = goCave;
+button4.onclick = fightDragon;
 
 function update(location) {
   monsterStats.style.display = "none";
   button1.innerText = location["button text"][0];
   button2.innerText = location["button text"][1];
   button3.innerText = location["button text"][2];
+  button4.innerText = location["button text"][3];
   button1.onclick = location["button functions"][0];
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
+  button4.onclick = location["button functions"][3];
   text.innerText += location.text +"\n";
   scrollA();
 }
 
+ //Store functions 
 function buyHealth() {
   if (gold >= 10 && isManaFull()) {
     gold -= 10;
@@ -206,6 +236,8 @@ function buyWeapon() {
   scrollA();
 }
 
+function buyPotion(){}
+
 function sellWeapon() {
   if (inventory.length > 1) {
     gold += 15;
@@ -249,3 +281,4 @@ function scrollA() {
 function isManaFull(){
   return mana < 20 ;
 }
+

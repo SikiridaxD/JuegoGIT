@@ -6,7 +6,7 @@ const heros = [
     healthMax: 50,
     healthActual: 50,
     mana: 20,
-    special: Power,
+    special: "Power",
     minSpecialD: 4,
     maxSpecialD: 24,
   },
@@ -16,7 +16,7 @@ const heros = [
     healthMax: 30,
     healthActual: 30,
     mana: 50,
-    special: Power,
+    special: "Power",
     minSpecialD: 8,
     maxSpecialD: 32,
   },
@@ -26,7 +26,7 @@ const heros = [
     healthMax: 40,
     healthActual: 40,
     mana: 30,
-    special: Power,
+    special: "Power",
     minSpecialD: 3,
     maxSpecialD: 18,
   }
@@ -85,8 +85,12 @@ function fightDragon() {
     goFight();
 }
   
+function usePotion(){
+
+}
+
 function goFight() {
-    update(locations[3]);
+    update(locations[4]);
     monsterHealth = monsters[fighting].health;
     monsterStats.style.display = "block";
     monsterName.innerText = monsters[fighting].name;

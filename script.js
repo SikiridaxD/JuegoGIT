@@ -1,6 +1,7 @@
 let xp = 0;
 let health = 0;
 let gold = 5000;
+let potions = 0;
 let mana = 0;
 let currentWeapon = 0;
 let fighting;
@@ -103,8 +104,8 @@ const locations = [
   },
   {
     name: "kill monster",
-    "button text": ["Go to town square", "Go to town square", "Go to town square", "Go to town square"],
-    "button functions": [goTown, goTown, goTown, goTown],
+    "button text": ["Fight again", "Go to cave", "Go store", "Go to town square"],
+    "button functions": [fightAgain, goCave, goStore, goTown],
     text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.\n'
   },
   {
@@ -135,16 +136,19 @@ function hire(hero){
 function hireWarrior(){
   currentHero = 0;
   hire(currentHero);
+  scrollA();
 }
 
 function hireMage(){
   currentHero = 1;
   hire(currentHero);
+  scrollA();
 }
 
 function hireElf(){
   currentHero = 2;
   hire(currentHero);
+  scrollA();
 }
 
 //Funciones de viaje
@@ -168,6 +172,14 @@ function goCave() {
   scrollA();
 }
 
+function lose() {
+  update(locations[6]);
+}
+
+function winGame() {
+  update(locations[7]);
+}
+
 // initialize buttons
 button1.onclick = goStore;
 button2.onclick = goTavern;
@@ -188,27 +200,14 @@ function update(location) {
   scrollA();
 }
 
- //Store functions 
+//Store functions 
 function buyHealth() {
-  if (gold >= 10 && isManaFull()) {
-    gold -= 10;
-    health += 10;
-    goldText.innerText = gold;
-    healthText.innerText = health;
-    text.innerText += "Recovered health and mana\n";
-    if(mana=19){
-      mana += 1;
-      manaText.innerText=mana;
-    } else {
-      mana += 2;
-      manaText.innerText = mana;
-    }
-  } else if (gold >= 10) {
-    gold -= 10;
-    health += 10;
-    goldText.innerText = gold;
-    healthText.innerText = health;
-    text.innerText += "Recovered health\n";
+  if (gold >= 10) {
+     gold -= 10;
+     health += 10;
+     goldText.innerText = gold;
+     healthText.innerText = health;
+     text.innerText += "Recovered health\n";
   } else {
     text.innerText += "You do not have enough gold to buy health.\n";
   }
@@ -236,7 +235,18 @@ function buyWeapon() {
   scrollA();
 }
 
-function buyPotion(){}
+function buyPotion(){
+  if (gold >= 10) {
+    gold -= 10;
+    potions += 1;
+    goldText.innerText = gold;
+    potionText.innerText = potions;
+    text.innerText += "You buy a potion\n";
+ } else {
+   text.innerText += "You do not have enough gold to buy potions.\n";
+ }
+ scrollA();
+}
 
 function sellWeapon() {
   if (inventory.length > 1) {
@@ -249,15 +259,6 @@ function sellWeapon() {
     text.innerText += "Don't sell your only weapon!\n";
   }
   scrollA();
-}
-
-
-function lose() {
-  update(locations[5]);
-}
-
-function winGame() {
-  update(locations[6]);
 }
 
 function restart() {

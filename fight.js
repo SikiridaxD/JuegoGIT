@@ -6,7 +6,8 @@ const heros = [
     healthMax: 50,
     healthActual: 50,
     mana: 20,
-    special: "Power",
+    special: "Powerful Blow",
+    specialCost: 8,
     minSpecialD: 4,
     maxSpecialD: 24,
   },
@@ -16,7 +17,8 @@ const heros = [
     healthMax: 30,
     healthActual: 30,
     mana: 50,
-    special: "Power",
+    special: "Fire Ball",
+    specialCost: 12,
     minSpecialD: 8,
     maxSpecialD: 32,
   },
@@ -26,7 +28,8 @@ const heros = [
     healthMax: 40,
     healthActual: 40,
     mana: 30,
-    special: "Power",
+    special: "Piercing Shot",
+    specialCost: 10,
     minSpecialD: 3,
     maxSpecialD: 18,
   }
@@ -42,9 +45,9 @@ const monsters = [
     maxD: 6
   },
   {
-    name: "orc",
+    name: "Orc",
     level: 5,
-    health: 60,
+    health: 30,
     minD: 3, 
     maxD: 18
   },
@@ -83,6 +86,10 @@ function fightBeast() {
 function fightDragon() {
     fighting = 3;
     goFight();
+}
+
+function fightAgain(){
+  goFight();
 }
   
 function usePotion(){
@@ -126,7 +133,7 @@ function attack() {
     if (health <= 0) {
       lose();
     } else if (monsterHealth <= 0) {
-      if (fighting === 2) {
+      if (fighting === 3) {
         winGame();
       } else {
         defeatMonster();
@@ -198,7 +205,7 @@ function defeatMonster() {
     xp += monsters[fighting].level;
     goldText.innerText = gold;
     xpText.innerText = xp;
-    update(locations[4]);
+    update(locations[5]);
 }
   
 function weaponDamage() {

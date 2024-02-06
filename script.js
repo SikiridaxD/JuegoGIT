@@ -7,19 +7,26 @@ let fighting;
 let monsterHealth;
 let inventory = ["stick"];
 
+//Buttons
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
-const text = document.querySelector("#text");
-const xpText = document.querySelector("#xpText");
-const healthText = document.querySelector("#healthText");
+const button4 = document.querySelector("#button4");
+//Balance
 const goldText = document.querySelector("#goldText");
+const potionText = document.querySelector("#potionText");
+//Hero
+const classText = document.querySelector("#classText");
+const xpText = document.querySelector("#xpText");
+//Stats
+const healthText = document.querySelector("#healthText");
 const manaText=document.querySelector("#manaText");
+//Monsters
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
-
-
+//Text
+const text = document.querySelector("#text");
 
 const weapons = [
   { name: 'stick',
@@ -39,40 +46,6 @@ const weapons = [
     maxD: 10
   }
 ];
-const monsters = [
-  {
-    name: "slime",
-    level: 2,
-    health: 15,
-    minD: 1, 
-    maxD: 6
-  },
-  {
-    name: "orc",
-    level: 5,
-    health: 60,
-    minD: 3, 
-    maxD: 18
-  },
-  {
-    name: "fanged beast",
-    level: 8,
-    health: 60,
-    minD: 3, 
-    maxD: 18
-  },
-  {
-    name: "dragon",
-    level: 20,
-    health: 300,
-    minD: 5, 
-    maxD: 30
-  }
-]
-
-
-
-
 
 /**
  * {
@@ -99,47 +72,75 @@ const monsters = [
 const locations = [
   {
     name: "town square",
-    "button text": ["Go to store", "Go to cave", "Fight dragon"],
-    "button functions": [goStore, goCave, fightDragon],
+    "button text": ["Go to store", "Go to tavern", "Go to cave", "Fight dragon"],
+    "button functions": [goStore, goTavern, goCave, fightDragon],
+    text: "You are in the town square. You see a sign that says \"Store\".\n"
+  },
+  {
+    name: "tavern",
+    "button text": ["Hire warrior", "Hire mage", "Hire elf", "Go to town square"],
+    "button functions": [hireWarrior, hireMage, hireElf, goTown],
     text: "You are in the town square. You see a sign that says \"Store\".\n"
   },
   {
     name: "store",
-    "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to town square"],
-    "button functions": [buyHealth, buyWeapon, goTown],
+    "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Buy potion (10 gold)", "Go to town square"],
+    "button functions": [buyHealth, buyWeapon, buyPotion, goTown],
     text: "You enter the store.\n"
   },
   {
     name: "cave",
-    "button text": ["Fight slime", "Fight fanged beast", "Go to town square"],
-    "button functions": [fightSlime, fightBeast, goTown],
+    "button text": ["Fight slime", "Fight orc", "Fight fanged beast", "Go to town square"],
+    "button functions": [fightSlime, fightOrc, fightBeast, goTown],
     text: "You enter the cave. You see some monsters.\n"
   },
   {
     name: "fight",
-    "button text": ["Attack", "Special", "Run"],
-    "button functions": [attack, special, goTown],
+    "button text": ["Attack", "Special", "dummy," "Run"],
+    "button functions": [attack, special, dummyFun, goTown],
     text: "You are fighting a monster.\n"
   },
   {
     name: "kill monster",
-    "button text": ["Go to town square", "Go to town square", "Go to town square"],
-    "button functions": [goTown, goTown, goTown],
+    "button text": ["Go to town square", "Go to town square", "Go to town square", "Go to town square"],
+    "button functions": [goTown, goTown, goTown, goTown],
     text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.\n'
   },
   {
     name: "lose",
-    "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
-    "button functions": [restart, restart, restart],
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?", "REPLAY?"],
+    "button functions": [restart, restart, ,restart, restart],
     text: "You die. ☠️\n"
   },
   { 
     name: "win", 
-    "button text": ["REPLAY?", "REPLAY?", "REPLAY?"], 
-    "button functions": [restart, restart, restart], 
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?", "REPLAY?"], 
+    "button functions": [restart, restart, restart, restart], 
     text: "You defeat the dragon! YOU WIN THE GAME! 🎉\n" 
   },
 ];
+
+//Funciones de viaje
+function goTown() {
+  update(locations[0]);
+  scrollA();
+}
+
+function goTavern() {
+  update(locations[1]);
+  scrollA();
+}
+
+
+function goStore() {
+  update(locations[2]);
+  scrollA();
+}
+
+function goCave() {
+  update(locations[3]);
+  scrollA();
+}
 
 // initialize buttons
 button1.onclick = goStore;
@@ -155,21 +156,6 @@ function update(location) {
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
   text.innerText += location.text +"\n";
-  scrollA();
-}
-
-function goTown() {
-  update(locations[0]);
-  scrollA();
-}
-
-function goStore() {
-  update(locations[1]);
-  scrollA();
-}
-
-function goCave() {
-  update(locations[2]);
   scrollA();
 }
 

@@ -1,29 +1,100 @@
+//Heros
+const heros = [
+  {
+    id: 1,
+    name: "Warrior",
+    healthMax: 50,
+    healthActual: 50,
+    mana: 20,
+    special: Power,
+    minSpecialD: 4,
+    maxSpecialD: 24,
+  },
+  {
+    id: 2,
+    name: "Mage",
+    healthMax: 30,
+    healthActual: 30,
+    mana: 50,
+    special: Power,
+    minSpecialD: 8,
+    maxSpecialD: 32,
+  },
+  {
+    id: 3,
+    name: "Elf",
+    healthMax: 40,
+    healthActual: 40,
+    mana: 30,
+    special: Power,
+    minSpecialD: 3,
+    maxSpecialD: 18,
+  }
+]
 
+//Monstruos
+const monsters = [
+  {
+    name: "slime",
+    level: 2,
+    health: 15,
+    minD: 1, 
+    maxD: 6
+  },
+  {
+    name: "orc",
+    level: 5,
+    health: 60,
+    minD: 3, 
+    maxD: 18
+  },
+  {
+    name: "fanged beast",
+    level: 8,
+    health: 60,
+    minD: 3, 
+    maxD: 18
+  },
+  {
+    name: "dragon",
+    level: 20,
+    health: 300,
+    minD: 5, 
+    maxD: 30
+  }
+]
+
+//Funciones de pelea
 function fightSlime() {
     fighting = 0;
     goFight();
   }
-  
-  function fightBeast() {
+
+function fightOrc() {
     fighting = 1;
     goFight();
-  }
+}  
   
-  function fightDragon() {
+function fightBeast() {
     fighting = 2;
     goFight();
-  }
+}
   
-  function goFight() {
+function fightDragon() {
+    fighting = 3;
+    goFight();
+}
+  
+function goFight() {
     update(locations[3]);
     monsterHealth = monsters[fighting].health;
     monsterStats.style.display = "block";
     monsterName.innerText = monsters[fighting].name;
     monsterHealthText.innerText = monsterHealth;
     scrollA();
-  }
+}
   
-  function attack() {
+function attack() {
     text.innerText += "The " + monsters[fighting].name + " attacks.\n";
     text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".\n";
     let monsterDamage=getMonsterAttackValue();
@@ -62,19 +133,20 @@ function fightSlime() {
       currentWeapon--;
     }
     scrollA();
-  }
+}
   
-  function getMonsterAttackValue() {
+function getMonsterAttackValue() {
     let minDamage = monsters[fighting].minD;
     let maxDamage = monsters[fighting].maxD;
     return Math.floor(Math.random() *(maxDamage - minDamage + 1) ) + minDamage ; 
-  }
+}
   
-  function isMonsterHit() {
+  
+function isMonsterHit() {
     return Math.random() > .2 || health < 20;
-  }
+}
   
-  function special() {
+function special() {
     if (mana>0){
       text.innerText += "The " + monsters[fighting].name + " attacks.\n";
       text.innerText += " You perform a special attack.\n";
@@ -115,29 +187,27 @@ function fightSlime() {
     }
   
     scrollA();
-  }
+}
   
-  function defeatMonster() {
+function defeatMonster() {
     gold += Math.floor(monsters[fighting].level * 6.7);
     xp += monsters[fighting].level;
     goldText.innerText = gold;
     xpText.innerText = xp;
     update(locations[4]);
-  }
-
-
+}
   
 function weaponDamage() {
     minDamage = weapons[currentWeapon].minD;
     maxDamage = weapons[currentWeapon].maxD;
     return Math.floor(Math.random() *(maxDamage - minDamage + 1) ) + minDamage ; 
-  }
+}
   
   
-  function isCrit() {
+function isCrit() {
     return Math.random() < .5 ;
-  }
+}
   
-  function specialAttackDamage(){
+function specialAttackDamage(){
     return  Math.floor(Math.random() *(24 - 4 + 1) ) + 4;
-  }
+}

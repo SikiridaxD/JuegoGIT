@@ -48,6 +48,13 @@ const monsters = [
     maxD: 6
   },
   {
+    name: "orc",
+    level: 5,
+    health: 60,
+    minD: 3, 
+    maxD: 18
+  },
+  {
     name: "fanged beast",
     level: 8,
     health: 60,

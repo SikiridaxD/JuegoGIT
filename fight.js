@@ -121,24 +121,8 @@ const monsters = [
   },
 ];
 
-//Funciones de pelea
-function fightSlime() {
-  fighting = 0;
-  goFight();
-}
-
-function fightOrc() {
-  fighting = 1;
-  goFight();
-}
-
-function fightBeast() {
-  fighting = 2;
-  goFight();
-}
-
-function fightDragon() {
-  fighting = 3;
+function fightMonster(idMonster) {
+  fighting = idMonster;
   goFight();
 }
 
@@ -155,48 +139,6 @@ function goFight() {
   scrollA();
 }
 
-function attack() {
-  text.innerText += "The " + monsters[fighting].name + " attacks.\n";
-  let monsterDamage = getMonsterAttackValue();
-  health -= monsterDamage;
-  text.innerText += "You suffer " + monsterDamage + " points of damage\n";
-  text.innerText +=
-    " You attack it with your " + weapons[currentWeapon].name + ".\n";
-  let isHit = isMonsterHit();
-  if (isHit && isCrit()) {
-    let damage = weaponDamage() + weaponDamage();
-    monsterHealth -= damage;
-    text.innerText += " You get a critical. You do " + damage + " of damage.\n";
-  } else if (isHit) {
-    let damage = weaponDamage();
-    monsterHealth -= damage;
-    text.innerText += " You do " + damage + " damage.\n";
-  } else {
-    text.innerText += " You miss.\n";
-  }
-  healthText.innerText = health;
-  monsterHealthText.innerText = monsterHealth;
-  if (isManaFull()) {
-    mana += 1;
-    manaText.innerText = mana;
-  }
-
-  if (health <= 0) {
-    lose();
-  } else if (monsterHealth <= 0) {
-    if (fighting === 3) {
-      winGame();
-    } else {
-      defeatMonster();
-    }
-  }
-  if (Math.random() <= 0.1 && inventory.length !== 1) {
-    text.innerText += " Your " + inventory.pop() + " breaks.\n";
-    currentWeapon--;
-  }
-  scrollA();
-}
-
 function getMonsterAttackValue() {
   let minDamage = monsters[fighting].minD;
   let maxDamage = monsters[fighting].maxD;
@@ -207,53 +149,101 @@ function isMonsterHit() {
   return Math.random() > 0.2 || health < 20;
 }
 
-function special() {
-  if (mana > 0) {
-    text.innerText += "The " + monsters[fighting].name + " attacks.\n";
-    text.innerText += " You perform a special attack.\n";
+let attackType = "attack" | "special";
+
+function combat(attackType) {
+  monsterAttacks();
+  if (attackType == "attack") {
+    normalAttack();
+  }
+  if (attackType == "special") {
+    specialAttack();
+  }
+  increaseMana();
+  checkWeapon();
+  verifyBattle();
+}
+
+function verifyBattle() {
+  if (health <= 0) {
+    lose();
+  } else if (monsterHealth <= 0) {
+    if (fighting === 3) {
+      winGame();
+    } else {
+      defeatMonster();
+    }
+  }
+}
+
+function checkWeapon() {
+  if (Math.random() <= 0.1 && inventory.length !== 1) {
+    text.innerText += " Your " + inventory.pop() + " breaks.\n";
+    currentWeapon--;
+  }
+}
+
+//Monstruo atacando
+function monsterAttacks() {  
+  text.innerText += "The " + monsters[fighting].name + " attacks.\n";
+  let monsterDamage = getMonsterAttackValue();
+  health -= monsterDamage;
+  text.innerText += "You suffer " + monsterDamage + " points of damage\n";
+  healthText.innerText = health;
+}
+
+function normalAttack() {
+  let damage = 0;
+  let msg = "";
+  text.innerText +=
+    " You attack it with your " + weapons[currentWeapon].name + ".\n";
+  if (isMonsterHit()) {
+    damage = weaponDamage();
+    msg = " You do " + damage + " damage.\n";
+    if (isCrit()) {
+      damage += weaponDamage();
+      msg = " You get a critical. You do " + damage + " of damage.\n";
+    }
+    monsterHealth -= damage;
+    text.innerText += msg;
+  } else {
+    text.innerText += " You miss.\n";
+  }
+  monsterHealthText.innerText = monsterHealth;
+}
+
+function specialAttack() {
+  if (mana > 5) {
+    text.innerText += " You perform a 'special' attack.\n";
     mana -= 8;
-    manaText.innerText = mana;
-    let monsterDamage = getMonsterAttackValue();
-    health -= monsterDamage;
-    text.innerText += "You suffer " + monsterDamage + " points of damage\n";
-    let isHit = isMonsterHit();
-    if (isHit && isCrit()) {
-      let damage =
-        weaponDamage() +
-        weaponDamage() +
-        specialAttackDamage() +
-        specialAttackDamage();
+    if (isMonsterHit()) {
+      damage = weaponDamage() + specialAttackDamage();
+      msg = " You do " + damage + " damage.\n";
+      if (isCrit()) {
+        damage += weaponDamage() + specialAttackDamage();
+        msg = " You get a critical. You do " + damage + " of damage.\n";
+      }
       monsterHealth -= damage;
-      text.innerText +=
-        " You get a critical. You do " + damage + " of damage.\n";
-    } else if (isHit) {
-      let damage = weaponDamage() + specialAttackDamage();
-      monsterHealth -= damage;
-      text.innerText += " You do " + damage + " damage.\n";
+      text.innerText += msg;
     } else {
       text.innerText += " You miss.\n";
-    }
-    healthText.innerText = health;
-    monsterHealthText.innerText = monsterHealth;
-    if (health <= 0) {
-      lose();
-    } else if (monsterHealth <= 0) {
-      if (fighting === 2) {
-        winGame();
-      } else {
-        defeatMonster();
-      }
-    }
-    if (Math.random() <= 0.1 && inventory.length !== 1) {
-      text.innerText += " Your " + inventory.pop() + " breaks.\n";
-      currentWeapon--;
     }
   } else {
     text.innerText += " You don't have enough mana\n";
   }
 
-  scrollA();
+  monsterHealthText.innerText = monsterHealth;
+  manaText.innerText = mana;
 }
+
+//Incrementamos el maná
+function increaseMana() {
+  if (isManaFull()) {
+    mana += 1;
+    manaText.innerText = mana;
+  }
+}
+
 
 function defeatMonster() {
   gold += Math.floor(monsters[fighting].level * 6.7);

@@ -75,7 +75,7 @@ const locations = [
   {
     name: "town square",
     "button text": ["Go to store", "Go to tavern", "Go to cave", "Fight dragon"],
-    "button functions": [goStore, goTavern, goCave, fightDragon],
+    "button functions": [goStore, goTavern, goCave, ()=>{ fightMonster(3) }],
     text: "You are in the town square. You see a sign that says \"Store\".\n"
   },
   {
@@ -93,13 +93,18 @@ const locations = [
   {
     name: "cave",
     "button text": ["Fight slime", "Fight orc", "Fight fanged beast", "Go to town square"],
-    "button functions": [fightSlime, fightOrc, fightBeast, goTown],
+    "button functions": [ 
+      ()=>{ fightMonster(0) },
+      ()=>{ fightMonster(1) },
+      ()=>{ fightMonster(2) },
+      goTown
+    ],
     text: "You enter the cave. You see some monsters.\n"
   },
   {
     name: "fight",
     "button text": ["Attack", "Special", "Use potion", "Run"],
-    "button functions": [attack, special, usePotion, goTown],
+    "button functions": [()=>{ combat('attack')}, ()=>{ combat('special')}, usePotion, goTown],
     text: "You are fighting a monster.\n"
   },
   {
@@ -121,6 +126,9 @@ const locations = [
     text: "You defeat the dragon! YOU WIN THE GAME! 🎉\n" 
   },
 ];
+
+
+
 
 //Hire functions
 function hire(hero){
@@ -184,7 +192,7 @@ function winGame() {
 button1.onclick = goStore;
 button2.onclick = goTavern;
 button3.onclick = goCave;
-button4.onclick = fightDragon;
+button4.onclick = ()=>{ fightMonster(3) };
 
 function update(location) {
   monsterStats.style.display = "none";

@@ -32,9 +32,63 @@ const heros = [
     specialCost: 10,
     minSpecialD: 3,
     maxSpecialD: 18,
-  }
-]
-
+  },
+  {
+    id: 4,
+    name: "Rogue",
+    healthMax: 35,
+    healthActual: 35,
+    mana: 25,
+    special: "Shadow Strike",
+    specialCost: 10,
+    minSpecialD: 5,
+    maxSpecialD: 20,
+  },
+  {
+    id: 5,
+    name: "Paladin",
+    healthMax: 60,
+    healthActual: 60,
+    mana: 25,
+    special: "Divine Shield",
+    specialCost: 15,
+    minSpecialD: 3,
+    maxSpecialD: 18,
+  },
+  {
+    id: 6,
+    name: "Archer",
+    healthMax: 35,
+    healthActual: 35,
+    mana: 40,
+    special: "Multishot",
+    specialCost: 12,
+    minSpecialD: 2,
+    maxSpecialD: 12,
+  },
+  {
+    id: 7,
+    name: "Cleric",
+    healthMax: 45,
+    healthActual: 45,
+    mana: 45,
+    special: "Healing Light",
+    specialCost: 15,
+    minSpecialD: 10,
+    maxSpecialD: 30,
+  },
+  {
+    id: 8,
+    name: "Berserker",
+    healthMax: 65,
+    healthActual: 65,
+    mana: 10,
+    special: "Rage Smash",
+    specialCost: 20,
+    minSpecialD: 8,
+    maxSpecialD: 40,
+  },
+];
 //Monstruos
 const monsters = [
   {
@@ -90,10 +144,6 @@ function fightDragon() {
 
 function fightAgain(){
   goFight();
-}
-  
-function usePotion(){
-
 }
 
 function goFight() {
@@ -207,13 +257,26 @@ function defeatMonster() {
     xpText.innerText = xp;
     update(locations[5]);
 }
-  
+//Funciones de curación
+function usePotion(){
+ if (potions>0){
+  potions --;
+ potionText.innerText = potions;
+ poti = Math.floor(Math.random() *(14 - 3 + 1) ) + 3 ;
+ health += poti;
+ healthText.innerText = health;
+ text.innerText += "You drink a potion, restore " + poti + " health points\n";
+ } else {
+  text.innerText += "You don't have any potions\n";
+ }
+}
+
+//Funciones de daño
 function weaponDamage() {
     minDamage = weapons[currentWeapon].minD;
     maxDamage = weapons[currentWeapon].maxD;
     return Math.floor(Math.random() *(maxDamage - minDamage + 1) ) + minDamage ; 
 }
-  
   
 function isCrit() {
     return Math.random() < .5 ;

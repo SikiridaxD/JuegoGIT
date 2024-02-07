@@ -8,6 +8,7 @@ let fighting;
 let monsterHealth;
 let inventory = ["stick"];
 let currentHero;
+let party = [];
 
 //Buttons
 const button1 = document.querySelector('#button1');

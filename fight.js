@@ -4,8 +4,9 @@ const heros = [
     id: 1,
     name: "Warrior",
     healthMax: 50,
-    healthActual: 50,
+    health: 50,
     mana: 20,
+    maxMana: 20,
     special: "Powerful Blow",
     specialCost: 8,
     minSpecialD: 4,
@@ -15,8 +16,9 @@ const heros = [
     id: 2,
     name: "Mage",
     healthMax: 30,
-    healthActual: 30,
+    health: 30,
     mana: 50,
+    maxMana: 50,
     special: "Fire Ball",
     specialCost: 12,
     minSpecialD: 8,
@@ -26,7 +28,7 @@ const heros = [
     id: 3,
     name: "Elf",
     healthMax: 40,
-    healthActual: 40,
+    health: 40,
     mana: 30,
     special: "Piercing Shot",
     specialCost: 10,
@@ -37,7 +39,7 @@ const heros = [
     id: 4,
     name: "Rogue",
     healthMax: 35,
-    healthActual: 35,
+    health: 35,
     mana: 25,
     special: "Shadow Strike",
     specialCost: 10,
@@ -48,7 +50,7 @@ const heros = [
     id: 5,
     name: "Paladin",
     healthMax: 60,
-    healthActual: 60,
+    health: 60,
     mana: 25,
     special: "Divine Shield",
     specialCost: 15,
@@ -59,7 +61,7 @@ const heros = [
     id: 6,
     name: "Archer",
     healthMax: 35,
-    healthActual: 35,
+    health: 35,
     mana: 40,
     special: "Multishot",
     specialCost: 12,
@@ -70,7 +72,7 @@ const heros = [
     id: 7,
     name: "Cleric",
     healthMax: 45,
-    healthActual: 45,
+    health: 45,
     mana: 45,
     special: "Healing Light",
     specialCost: 15,
@@ -81,7 +83,7 @@ const heros = [
     id: 8,
     name: "Berserker",
     healthMax: 65,
-    healthActual: 65,
+    health: 65,
     mana: 10,
     special: "Rage Smash",
     specialCost: 20,
@@ -159,7 +161,7 @@ function combat(attackType) {
 }
 
 function verifyBattle() {
-  if (health <= 0) {
+  if (currentHero.health <= 0) {
     lose();
   } else if (monsterHealth <= 0) {
     if (fighting === 3) {
@@ -172,7 +174,7 @@ function verifyBattle() {
 
 function defeatMonster() {
   gold += Math.floor(monsters[fighting].level * 6.7);
-  xp += monsters[fighting].level;
+  currentHero.xp += monsters[fighting].level;
   update(locations[5]);
 }
 
@@ -187,7 +189,7 @@ function checkWeapon() {
 function monsterAttacks() {  
   multiText("The " + monsters[fighting].name + " attacks.");
   let monsterDamage = getMonsterAttackValue();
-  health -= monsterDamage;
+  currentHero.health -= monsterDamage;
   multiText("You suffer " + monsterDamage + " points of damage");
 }
 
@@ -216,9 +218,9 @@ function normalAttack() {
 }
 
 function specialAttack() {
-  if (mana > 5) {
-    multiText(" You perform a 'special' attack.");
-    mana -= 8;
+  if (currentHero.mana > currentHero.specialCost) {
+    multiText(" You perform a "+ currentHero.special +" attack.");
+    currentHero.mana -=  currentHero.specialCost;
     if (isMonsterHit()) {
       damage = weaponDamage() + specialAttackDamage();
       multiText("You do " + damage + " damage.");
@@ -237,25 +239,25 @@ function specialAttack() {
 }
 
 function isMonsterHit() {
-  return Math.random() > 0.2 || health < 20;
+  return Math.random() > 0.2 || currentHero.health < 20;
 }
 
 //Incrementamos el maná
 function increaseMana() {
   if (isManaFull()) {
-    mana += 1;
+    currentHero.mana += 1;
   }
 }
 
 //Funciones de curación
 function usePotion() {
-  if (potions == 0) {
+  if (currentHero.potions == 0) {
     msg = "You don't have any potions.";
     return;
   }
-  potions--;
+  currentHero.potions--;
   poti = Math.floor(Math.random() * (14 - 3 + 1)) + 3;
-  health += poti;
+  currentHero.health += poti;
   msg = "You drink a potion, restore " + poti + " health points";
   updateLog();
   updateHeroTexts();

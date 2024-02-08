@@ -1,8 +1,5 @@
-let xp = 0;
-let health = 0;
+
 let gold = 5000;
-let potions = 0;
-let mana = 0;
 let currentWeapon = 0;
 let fighting;
 let monsterHealth;
@@ -60,7 +57,7 @@ const locations = [
   {
     name: "tavern",
     "button text": ["Hire warrior", "Hire mage", "Hire elf", "Go to town square"],
-    "button functions": [hireWarrior, hireMage, hireElf, goTown],
+    "button functions": [()=> hireAdventure(0), ()=> hireAdventure(1), ()=> hireAdventure(2), goTown],
     text: "You are in the tavern. You see a some heros.\n"
   },
   {
@@ -73,9 +70,9 @@ const locations = [
     name: "cave",
     "button text": ["Fight slime", "Fight orc", "Fight fanged beast", "Go to town square"],
     "button functions": [ 
-      ()=>{ fightMonster(0) },
-      ()=>{ fightMonster(1) },
-      ()=>{ fightMonster(2) },
+      ()=> fightMonster(0),
+      ()=> fightMonster(1),
+      ()=> fightMonster(2),
       goTown
     ],
     text: "You enter the cave. You see some monsters.\n"
@@ -83,7 +80,7 @@ const locations = [
   {
     name: "fight",
     "button text": ["Attack", "Special", "Use potion", "Run"],
-    "button functions": [()=>{ combat('attack')}, ()=>{ combat('special')}, usePotion, goTown],
+    "button functions": [()=>combat('attack'),()=> combat('special'), usePotion, goTown],
     text: "You are fighting a monster.\n"
   },
   {
@@ -107,33 +104,15 @@ const locations = [
 ];
 
 //Hire functions
-function hire(hero){
-  heroUsed = heros[hero].name;
-  classText.innerText =  heroUsed;
-  health = heros[hero].healthMax;
-  mana = heros[hero].mana;
-  msg = heroUsed + " hired.";
+function hireAdventure(heroId){
+  currentHero = heros[heroId];
+  classText.innerText =  currentHero.name;
+  msg = currentHero.name + " hired.";
   updateHeroTexts();
   updateLog();
-}
-
-function hireWarrior(){
-  currentHero = 0;
-  hire(currentHero);
   scrollA();
 }
 
-function hireMage(){
-  currentHero = 1;
-  hire(currentHero);
-  scrollA();
-}
-
-function hireElf(){
-  currentHero = 2;
-  hire(currentHero);
-  scrollA();
-}
 
 //Funciones de viaje
 function goTown() {
@@ -188,7 +167,7 @@ function update(location) {
 function buyHealth() {
   if (gold >= 10) {
      gold -= 10;
-     health += 10;
+     currentHero.health += 10;
      msg = "Recovered health.";
   } else {
     msg = "You do not have enough gold to buy health.";
@@ -203,7 +182,7 @@ function buyWeapon() {
       gold -= 30;
       currentWeapon++;
       let newWeapon = weapons[currentWeapon].name;
-      multiple("You now have a " + newWeapon + ".");
+      multiText("You now have a " + newWeapon + ".");
       inventory.push(newWeapon);
       multiple(" In your inventory you have: " + inventory + ".");
     } else {
@@ -245,11 +224,7 @@ function sellWeapon() {
 }
 
 function restart() {
-  xp = 0;
-  health = 100;
-  gold = 50;
-  currentWeapon = 0;
-  inventory = ["stick"];
+ 
   updateHeroTexts();
   goTown();
 }
@@ -261,10 +236,10 @@ function scrollA() {
 //Función de actualizacion de textos del heroe 
 function updateHeroTexts(){
   goldText.innerText = gold;
-  potionText.innerText = potions;
-  healthText.innerText = health;
-  manaText.innerText = mana;
-  xpText.innerText = xp;
+  potionText.innerText = currentHero.potions;
+  healthText.innerText = currentHero.health;
+  manaText.innerText =  currentHero.mana;
+  xpText.innerText = currentHero.xp;
 }
 
 //Función de actualización de registro
@@ -280,5 +255,5 @@ function multiText(txt){
 
 //Devuleve true si falta mana
 function isManaFull(){
-  return mana < 20 ;
+  return currentHero.mana < currentHero.maxMana ;
 }

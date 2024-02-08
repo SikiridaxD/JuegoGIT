@@ -8,6 +8,7 @@ let fighting;
 let monsterHealth;
 let inventory = ["stick"];
 let currentHero;
+let msg = "";
 
 //Buttons
 const button1 = document.querySelector('#button1');
@@ -48,28 +49,6 @@ const weapons = [
     maxD: 10
   }
 ];
-
-/**
- * {
- * id: 1,2,3
- * Nombre: "",
- * health: 50, 30, 40
- * healthActual:
- * pociones: 1 , esta restaura 2d6+2
- * mana : 20, 50, 30
- * specialCost: 8 ,12,10,
- * specialDamage : 4d6 , 8d4 ,3d6 
- * special: 'Golpe poderoso', "Bola de fuego", "Flecha perforante"
- * }
- * 
- * 1) Contratar Guerrero
- * 2) Contratar Mago
- * 3) Contratar Elfo
- * 4) Ir al poblado
- * 
- */
-
-
 
 const locations = [
   {
@@ -127,18 +106,15 @@ const locations = [
   },
 ];
 
-
-
-
 //Hire functions
 function hire(hero){
   heroUsed = heros[hero].name;
   classText.innerText =  heroUsed;
   health = heros[hero].healthMax;
-  healthText.innerText = health; 
   mana = heros[hero].mana;
-  manaText.innerText = mana;
-  text.innerText += heroUsed + " hired\n";
+  msg = heroUsed + " hired.";
+  updateHeroTexts();
+  updateLog();
 }
 
 function hireWarrior(){
@@ -204,8 +180,8 @@ function update(location) {
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
   button4.onclick = location["button functions"][3];
-  text.innerText += location.text +"\n";
-  scrollA();
+  msg = location.text;
+  updateLog();
 }
 
 //Store functions 
@@ -213,12 +189,12 @@ function buyHealth() {
   if (gold >= 10) {
      gold -= 10;
      health += 10;
-     text.innerText += "Recovered health\n";
+     msg = "Recovered health.";
   } else {
-    text.innerText += "You do not have enough gold to buy health.\n";
+    msg = "You do not have enough gold to buy health.";
   }
+  updateLog();
   updateHeroTexts();
-  scrollA();
 }
 
 function buyWeapon() {
@@ -227,31 +203,31 @@ function buyWeapon() {
       gold -= 30;
       currentWeapon++;
       let newWeapon = weapons[currentWeapon].name;
-      text.innerText += "You now have a " + newWeapon + ".\n";
+      multiple("You now have a " + newWeapon + ".");
       inventory.push(newWeapon);
-      text.innerText += " In your inventory you have: " + inventory + "\n";
+      multiple(" In your inventory you have: " + inventory + ".");
     } else {
-      text.innerText += "You do not have enough gold to buy a weapon.\n";
+      msg = "You do not have enough gold to buy a weapon.";
     }
   } else {
-    text.innerText += "You already have the most powerful weapon!\n";
+    msg = "You already have the most powerful weapon!";
     button2.innerText = "Sell weapon for 15 gold";
     button2.onclick = sellWeapon;
   }
+  updateLog();
   updateHeroTexts();
-  scrollA();
 }
 
 function buyPotion(){
   if (gold >= 10) {
     gold -= 10;
     potions += 1;
-    text.innerText += "You buy a potion\n";
+    msg = "You buy a potion.";
  } else {
-   text.innerText += "You do not have enough gold to buy potions.\n";
+   msg = "You do not have enough gold to buy potions.";
  }
+ updateLog();
  updateHeroTexts();
- scrollA();
 }
 
 //Reisar utilidad
@@ -263,7 +239,7 @@ function sellWeapon() {
     text.innerText += "You sold a " + currentWeapon + ".\n";
     text.innerText += " In your inventory you have: " + inventory + "\n";
   } else {
-    text.innerText += "Don't sell your only weapon!\n";
+    msg = "Don't sell your only weapon!";
   }
   scrollA();
 }
@@ -291,8 +267,18 @@ function updateHeroTexts(){
   xpText.innerText = xp;
 }
 
+//Función de actualización de registro
+function updateLog(){
+  text.innerText += msg + "\n";
+  text.scrollTop = text.scrollHeight;
+  msg = "";
+}
+
+function multiText(txt){
+  msg += txt + "\n";
+}
+
 //Devuleve true si falta mana
 function isManaFull(){
   return mana < 20 ;
 }
-

@@ -213,12 +213,11 @@ function buyHealth() {
   if (gold >= 10) {
      gold -= 10;
      health += 10;
-     goldText.innerText = gold;
-     healthText.innerText = health;
      text.innerText += "Recovered health\n";
   } else {
     text.innerText += "You do not have enough gold to buy health.\n";
   }
+  updateHeroTexts();
   scrollA();
 }
 
@@ -227,7 +226,6 @@ function buyWeapon() {
     if (gold >= 30) {
       gold -= 30;
       currentWeapon++;
-      goldText.innerText = gold;
       let newWeapon = weapons[currentWeapon].name;
       text.innerText += "You now have a " + newWeapon + ".\n";
       inventory.push(newWeapon);
@@ -240,6 +238,7 @@ function buyWeapon() {
     button2.innerText = "Sell weapon for 15 gold";
     button2.onclick = sellWeapon;
   }
+  updateHeroTexts();
   scrollA();
 }
 
@@ -247,15 +246,15 @@ function buyPotion(){
   if (gold >= 10) {
     gold -= 10;
     potions += 1;
-    goldText.innerText = gold;
-    potionText.innerText = potions;
     text.innerText += "You buy a potion\n";
  } else {
    text.innerText += "You do not have enough gold to buy potions.\n";
  }
+ updateHeroTexts();
  scrollA();
 }
 
+//Reisar utilidad
 function sellWeapon() {
   if (inventory.length > 1) {
     gold += 15;
@@ -275,9 +274,7 @@ function restart() {
   gold = 50;
   currentWeapon = 0;
   inventory = ["stick"];
-  goldText.innerText = gold;
-  healthText.innerText = health;
-  xpText.innerText = xp;
+  updateHeroTexts();
   goTown();
 }
 
@@ -285,6 +282,14 @@ function scrollA() {
   text.scrollTop = text.scrollHeight;
 }
 
+//Función de actualizacion de textos del heroe 
+function updateHeroTexts(){
+  goldText.innerText = gold;
+  potionText.innerText = potions;
+  healthText.innerText = health;
+  manaText.innerText = mana;
+  xpText.innerText = xp;
+}
 
 //Devuleve true si falta mana
 function isManaFull(){

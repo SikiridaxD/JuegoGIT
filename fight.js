@@ -126,6 +126,7 @@ function fightMonster(idMonster) {
   goFight();
 }
 
+// Revisar relevancia
 function fightAgain() {
   goFight();
 }
@@ -139,18 +140,9 @@ function goFight() {
   scrollA();
 }
 
-function getMonsterAttackValue() {
-  let minDamage = monsters[fighting].minD;
-  let maxDamage = monsters[fighting].maxD;
-  return Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
-}
-
-function isMonsterHit() {
-  return Math.random() > 0.2 || health < 20;
-}
-
 let attackType = "attack" | "special";
 
+//Esta función representa el combate
 function combat(attackType) {
   monsterAttacks();
   if (attackType == "attack") {
@@ -160,8 +152,10 @@ function combat(attackType) {
     specialAttack();
   }
   increaseMana();
+  updateHeroTexts();
   checkWeapon();
   verifyBattle();
+  scrollA();
 }
 
 function verifyBattle() {
@@ -174,6 +168,12 @@ function verifyBattle() {
       defeatMonster();
     }
   }
+}
+
+function defeatMonster() {
+  gold += Math.floor(monsters[fighting].level * 6.7);
+  xp += monsters[fighting].level;
+  update(locations[5]);
 }
 
 function checkWeapon() {
@@ -189,9 +189,15 @@ function monsterAttacks() {
   let monsterDamage = getMonsterAttackValue();
   health -= monsterDamage;
   text.innerText += "You suffer " + monsterDamage + " points of damage\n";
-  healthText.innerText = health;
 }
 
+function getMonsterAttackValue() {
+  let minDamage = monsters[fighting].minD;
+  let maxDamage = monsters[fighting].maxD;
+  return Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+}
+
+//Funciones de ataque jugador
 function normalAttack() {
   let damage = 0;
   let msg = "";
@@ -233,25 +239,19 @@ function specialAttack() {
   }
 
   monsterHealthText.innerText = monsterHealth;
-  manaText.innerText = mana;
+}
+
+function isMonsterHit() {
+  return Math.random() > 0.2 || health < 20;
 }
 
 //Incrementamos el maná
 function increaseMana() {
   if (isManaFull()) {
     mana += 1;
-    manaText.innerText = mana;
   }
 }
 
-
-function defeatMonster() {
-  gold += Math.floor(monsters[fighting].level * 6.7);
-  xp += monsters[fighting].level;
-  goldText.innerText = gold;
-  xpText.innerText = xp;
-  update(locations[5]);
-}
 //Funciones de curación
 function usePotion() {
   if (potions == 0) {
@@ -259,11 +259,10 @@ function usePotion() {
     return;
   }
   potions--;
-  potionText.innerText = potions;
   poti = Math.floor(Math.random() * (14 - 3 + 1)) + 3;
   health += poti;
-  healthText.innerText = health;
   text.innerText += "You drink a potion, restore " + poti + " health points\n";
+  updateHeroTexts();
 }
 
 //Funciones de daño

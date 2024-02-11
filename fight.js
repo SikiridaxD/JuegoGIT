@@ -1,3 +1,5 @@
+let currentMonster;
+
 //Heros
 const heros = [
   {
@@ -125,20 +127,26 @@ const monsters = [
 
 function fightMonster(idMonster) {
   fighting = idMonster;
-  goFight();
+  gofightMonster();
 }
 
 // Revisar relevancia
 function fightAgain() {
-  goFight();
+  gofightMonster();
 }
 
-function goFight() {
+function gofightMonster(idMonster) {
+  let selectedMonster = monsters[idMonster];
+  currentMonster = new Monster(
+    selectedMonster.name,
+    selectedMonster.health,
+    selectedMonster.minD,
+    selectedMonster.maxD
+  );
   update(locations[4]);
-  monsterHealth = monsters[fighting].health;
   monsterStats.style.display = "block";
-  monsterName.innerText = monsters[fighting].name;
-  monsterHealthText.innerText = monsterHealth;
+  monsterName.innerText = currentMonster.name;
+  monsterHealthText.innerText = currentMonster.health;
 }
 
 let attackType = "attack" | "special";
@@ -161,9 +169,9 @@ function combat(attackType) {
 }
 
 function verifyBattle() {
-  if (currentHero.health <= 0) {
+  if (currentHero.isDead()) {
     lose();
-  } else if (monsterHealth <= 0) {
+  } else if (currentMonster.isDead()) {
     if (fighting === 3) {
       winGame();
     } else {
@@ -173,8 +181,9 @@ function verifyBattle() {
 }
 
 function defeatMonster() {
-  gold += Math.floor(monsters[fighting].level * 6.7);
-  currentHero.xp += monsters[fighting].level;
+  this.console.log(currentMonster);
+  gold += Math.floor(currentMonster.level * 6.7);
+  currentHero.xp += currentMonster.level;
   update(locations[5]);
 }
 
@@ -186,56 +195,50 @@ function checkWeapon() {
 }
 
 //Monstruo atacando
-function monsterAttacks() {  
-  multiText("The " + monsters[fighting].name + " attacks.");
-  let monsterDamage = getMonsterAttackValue();
-  currentHero.health -= monsterDamage;
+function monsterAttacks() {
+  multiText("The " + currentMonster.name + " attacks.");
+  let monsterDamage = currentMonster.getAttackValue();
+  currentHero.getDamage(monsterDamage);
   multiText("You suffer " + monsterDamage + " points of damage");
-}
-
-function getMonsterAttackValue() {
-  let minDamage = monsters[fighting].minD;
-  let maxDamage = monsters[fighting].maxD;
-  return Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
 }
 
 //Funciones de ataque jugador
 function normalAttack() {
   let damage = 0;
-  multiText("You attack it with your " + weapons[currentWeapon].name + ".");
+  multiText("You attack it with your " + currentHero.weapon.name + ".");
   if (isMonsterHit()) {
-    damage = weaponDamage();
+    damage = currentHero.getAttackValue();
     multiText("You do " + damage + " damage.");
-    if (isCrit()) {
-      damage += weaponDamage();
+    if (currentHero.isCrit()) {
+      damage += currentHero.getAttackValue();
       multiText("You get a critical. You do " + damage + " of damage.");
     }
-    monsterHealth -= damage;
+    currentMonster.getDamage(damage);
   } else {
     multiText("You miss.");
   }
-  monsterHealthText.innerText = monsterHealth;
+  monsterHealthText.innerText = currentMonster.health;
 }
 
 function specialAttack() {
-  if (currentHero.mana > currentHero.specialCost) {
-    multiText(" You perform a "+ currentHero.special +" attack.");
-    currentHero.mana -=  currentHero.specialCost;
+  if (currentHero.enoughToSpecial()) {
+    multiText(" You perform a " + currentHero.specialName + " attack.");
+    currentHero.useSpecialAttack();
     if (isMonsterHit()) {
-      damage = weaponDamage() + specialAttackDamage();
+      damage = currentHero.getAttackValue() + currentHero.getSpecialDamage();
       multiText("You do " + damage + " damage.");
-      if (isCrit()) {
-        damage += weaponDamage() + specialAttackDamage();
+      if (currentHero.isCrit()) {
+        damage += currentHero.getAttackValue() + currentHero.getSpecialDamage();
         multiText("You get a critical. You do " + damage + " of damage.");
       }
-      monsterHealth -= damage;
+      currentMonster.getDamage(damage);
     } else {
       multiText("You miss.");
     }
   } else {
     multiText(" You don't have enough mana");
   }
-  monsterHealthText.innerText = monsterHealth;
+  monsterHealthText.innerText = currentMonster.health;
 }
 
 function isMonsterHit() {
@@ -261,19 +264,4 @@ function usePotion() {
   msg = "You drink a potion, restore " + poti + " health points";
   updateLog();
   updateHeroTexts();
-}
-
-//Funciones de daño
-function weaponDamage() {
-  minDamage = weapons[currentWeapon].minD;
-  maxDamage = weapons[currentWeapon].maxD;
-  return Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
-}
-
-function isCrit() {
-  return Math.random() < 0.5;
-}
-
-function specialAttackDamage() {
-  return Math.floor(Math.random() * (24 - 4 + 1)) + 4;
 }

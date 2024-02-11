@@ -1,4 +1,3 @@
-
 let gold = 5000;
 let currentWeapon = 0;
 let fighting;
@@ -8,7 +7,7 @@ let currentHero;
 let msg = "";
 
 //Buttons
-const button1 = document.querySelector('#button1');
+const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
 const button4 = document.querySelector("#button4");
@@ -20,7 +19,7 @@ const classText = document.querySelector("#classText");
 const xpText = document.querySelector("#xpText");
 //Stats
 const healthText = document.querySelector("#healthText");
-const manaText=document.querySelector("#manaText");
+const manaText = document.querySelector("#manaText");
 //Monsters
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
@@ -29,90 +28,128 @@ const monsterHealthText = document.querySelector("#monsterHealth");
 const text = document.querySelector("#text");
 
 const weapons = [
-  { name: 'stick',
-    minD: 1,
-    maxD: 4
-  },
-  { name: 'dagger', 
-    minD: 1,
-    maxD: 6
-  },
-  { name: 'claw hammer',
-    minD: 1,
-    maxD: 8
-  },
-  { name: 'sword',
-    minD: 1, 
-    maxD: 10
-  }
+  { name: "stick", minD: 1, maxD: 4 },
+  { name: "dagger", minD: 1, maxD: 6 },
+  { name: "claw hammer", minD: 1, maxD: 8 },
+  { name: "sword", minD: 1, maxD: 10 },
 ];
 
 const locations = [
   {
     name: "town square",
-    "button text": ["Go to store", "Go to tavern", "Go to cave", "Fight dragon"],
-    "button functions": [goStore, goTavern, goCave, ()=>{ fightMonster(3) }],
-    text: "You are in the town square. You see a sign that says \"Store\".\n"
+    "button text": [
+      "Go to store",
+      "Go to tavern",
+      "Go to cave",
+      "Fight dragon",
+    ],
+    "button functions": [
+      goStore,
+      goTavern,
+      goCave,
+      () => {
+        gofightMonster(3);
+      },
+    ],
+    text: 'You are in the town square. You see a sign that says "Store".\n',
   },
   {
     name: "tavern",
-    "button text": ["Hire warrior", "Hire mage", "Hire elf", "Go to town square"],
-    "button functions": [()=> hireAdventure(0), ()=> hireAdventure(1), ()=> hireAdventure(2), goTown],
-    text: "You are in the tavern. You see a some heros.\n"
+    "button text": [
+      "Hire warrior",
+      "Hire mage",
+      "Hire elf",
+      "Go to town square",
+    ],
+    "button functions": [
+      () => hireAdventure(0),
+      () => hireAdventure(1),
+      () => hireAdventure(2),
+      goTown,
+    ],
+    text: "You are in the tavern. You see a some heros.\n",
   },
   {
     name: "store",
-    "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Buy potion (10 gold)", "Go to town square"],
+    "button text": [
+      "Buy 10 health (10 gold)",
+      "Buy weapon (30 gold)",
+      "Buy potion (10 gold)",
+      "Go to town square",
+    ],
     "button functions": [buyHealth, buyWeapon, buyPotion, goTown],
-    text: "You enter the store.\n"
+    text: "You enter the store.\n",
   },
   {
     name: "cave",
-    "button text": ["Fight slime", "Fight orc", "Fight fanged beast", "Go to town square"],
-    "button functions": [ 
-      ()=> fightMonster(0),
-      ()=> fightMonster(1),
-      ()=> fightMonster(2),
-      goTown
+    "button text": [
+      "Fight slime",
+      "Fight orc",
+      "Fight fanged beast",
+      "Go to town square",
     ],
-    text: "You enter the cave. You see some monsters.\n"
+    "button functions": [
+      () => gofightMonster(0),
+      () => gofightMonster(1),
+      () => gofightMonster(2),
+      goTown,
+    ],
+    text: "You enter the cave. You see some monsters.\n",
   },
   {
     name: "fight",
     "button text": ["Attack", "Special", "Use potion", "Run"],
-    "button functions": [()=>combat('attack'),()=> combat('special'), usePotion, goTown],
-    text: "You are fighting a monster.\n"
+    "button functions": [
+      () => combat("attack"),
+      () => combat("special"),
+      usePotion,
+      goTown,
+    ],
+    text: "You are fighting a monster.\n",
   },
   {
     name: "kill monster",
-    "button text": ["Fight again", "Go to cave", "Go store", "Go to town square"],
+    "button text": [
+      "Fight again",
+      "Go to cave",
+      "Go store",
+      "Go to town square",
+    ],
     "button functions": [fightAgain, goCave, goStore, goTown],
-    text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.\n'
+    text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.\n',
   },
   {
     name: "lose",
     "button text": ["REPLAY?", "REPLAY?", "REPLAY?", "REPLAY?"],
-    "button functions": [restart, restart, ,restart, restart],
-    text: "You die. ☠️\n"
+    "button functions": [restart, restart, , restart, restart],
+    text: "You die. ☠️\n",
   },
-  { 
-    name: "win", 
-    "button text": ["REPLAY?", "REPLAY?", "REPLAY?", "REPLAY?"], 
-    "button functions": [restart, restart, restart, restart], 
-    text: "You defeat the dragon! YOU WIN THE GAME! 🎉\n" 
+  {
+    name: "win",
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?", "REPLAY?"],
+    "button functions": [restart, restart, restart, restart],
+    text: "You defeat the dragon! YOU WIN THE GAME! 🎉\n",
   },
 ];
 
 //Hire functions
-function hireAdventure(heroId){
-  currentHero = heros[heroId];
-  classText.innerText =  currentHero.name;
+function hireAdventure(heroId) {
+  let selectedHero = heros[heroId];
+  currentHero = new Hero(
+    selectedHero.name,
+    selectedHero.health,
+    1,
+    4,
+    selectedHero.mana,
+    selectedHero.specialCost,
+    selectedHero.special
+  );
+  classText.innerText = currentHero.name;
   msg = currentHero.name + " hired.";
   updateHeroTexts();
   updateLog();
   scrollA();
 }
-
 
 //Funciones de viaje
 function goTown() {
@@ -147,7 +184,9 @@ function winGame() {
 button1.onclick = goStore;
 button2.onclick = goTavern;
 button3.onclick = goCave;
-button4.onclick = ()=>{ fightMonster(3) };
+button4.onclick = () => {
+  fightMonster(3);
+};
 
 function update(location) {
   monsterStats.style.display = "none";
@@ -163,12 +202,12 @@ function update(location) {
   updateLog();
 }
 
-//Store functions 
+//Store functions
 function buyHealth() {
   if (gold >= 10) {
-     gold -= 10;
-     currentHero.health += 10;
-     msg = "Recovered health.";
+    gold -= 10;
+    currentHero.health += 10;
+    msg = "Recovered health.";
   } else {
     msg = "You do not have enough gold to buy health.";
   }
@@ -177,14 +216,17 @@ function buyHealth() {
 }
 
 function buyWeapon() {
+
+
   if (currentWeapon < weapons.length - 1) {
+
     if (gold >= 30) {
       gold -= 30;
-      currentWeapon++;
-      let newWeapon = weapons[currentWeapon].name;
-      multiText("You now have a " + newWeapon + ".");
-      inventory.push(newWeapon);
-      multiple(" In your inventory you have: " + inventory + ".");
+
+      let weapon = new Weapon('Sword',2,10,15);
+      currentHero.setWeapon(weapon);
+      
+      multiText("You now have a " + weapon.name + ".");
     } else {
       msg = "You do not have enough gold to buy a weapon.";
     }
@@ -197,16 +239,16 @@ function buyWeapon() {
   updateHeroTexts();
 }
 
-function buyPotion(){
+function buyPotion() {
   if (gold >= 10) {
     gold -= 10;
     potions += 1;
     msg = "You buy a potion.";
- } else {
-   msg = "You do not have enough gold to buy potions.";
- }
- updateLog();
- updateHeroTexts();
+  } else {
+    msg = "You do not have enough gold to buy potions.";
+  }
+  updateLog();
+  updateHeroTexts();
 }
 
 //Reisar utilidad
@@ -224,7 +266,6 @@ function sellWeapon() {
 }
 
 function restart() {
- 
   updateHeroTexts();
   goTown();
 }
@@ -233,27 +274,27 @@ function scrollA() {
   text.scrollTop = text.scrollHeight;
 }
 
-//Función de actualizacion de textos del heroe 
-function updateHeroTexts(){
+//Función de actualizacion de textos del heroe
+function updateHeroTexts() {
   goldText.innerText = gold;
   potionText.innerText = currentHero.potions;
   healthText.innerText = currentHero.health;
-  manaText.innerText =  currentHero.mana;
+  manaText.innerText = currentHero.mana;
   xpText.innerText = currentHero.xp;
 }
 
 //Función de actualización de registro
-function updateLog(){
+function updateLog() {
   text.innerText += msg + "\n";
   text.scrollTop = text.scrollHeight;
   msg = "";
 }
 
-function multiText(txt){
+function multiText(txt) {
   msg += txt + "\n";
 }
 
 //Devuleve true si falta mana
-function isManaFull(){
-  return currentHero.mana < currentHero.maxMana ;
+function isManaFull() {
+  return currentHero.mana < currentHero.maxMana;
 }

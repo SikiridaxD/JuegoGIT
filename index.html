@@ -7,20 +7,6 @@
   </head>
   <body>
     <div id="game">
-      <div id="party">
-        <legend>Party</legend>
-        <ol>
-          <li><span>Heroe</span></li>
-          <li><span>Heroe</span></li>
-          <li><span>Heroe</span></li>
-        </ol>
-      </div>
-      <div id="stats"><legend><strong>Balance</strong></legend>
-        <span class="stat"> <img src="assets/icons/coin_05d.png" width="15"/> Gold: 
-          <strong><span id="goldText">5000</span></strong></span>
-          <span class="stat"> <img src="assets/icons/potion_02f.png" width="15"/> Potions: 
-            <strong><span id="potionText">0</span></strong></span>
-      </div>
       <div id="stats"><legend><strong>Hero</strong></legend>
         <span class="stat">Class:
           <strong><span id="classText">None</span></strong></span>
@@ -34,6 +20,19 @@
           <strong><span id="healthText"> - </span></strong></span>
         <span class="stat"> <img src="assets/icons/gem_01c.png" width="15"/> Mana: 
           <strong><span id="manaText"> - </span></strong></span>
+                    <span class="stat"> <img src="assets/icons/potion_02f.png" width="15"/> H. Potions: 
+            <strong><span id="potionText">0</span></strong></span>
+            <span class="stat"> <img src="assets/icons/potion_02b.png" width="15"/> M. Potions: 
+              <strong><span id="potionText">0</span></strong></span>
+      </div>
+      <div id="balance">
+        <span class="balance"><legend><strong>Balance</strong></legend> <img src="assets/icons/coin_05d.png" width="15"/> Gold: 
+          <strong><span id="goldText">5000</span></strong></span>
+        <span class="party"><legend><strong>Party</strong></legend> 
+          <span class="hero"><input type="radio" id="hero1" name="currentHero" checked>[Available]</span>
+          <span class="hero"><input type="radio" id="hero2"  name="currentHero">[Available]</span>
+          <span class="hero"><input type="radio" id="hero3"  name="currentHero">[Available]</span>
+        </span>  
       </div>
       <div id="controls">
         <button id="button1">Go to store</button>

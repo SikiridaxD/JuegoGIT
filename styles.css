@@ -11,7 +11,8 @@ body {
   }
   
   #game {
-    max-width: 520px;
+    min-width: 420px;
+    max-width: 420px;
     max-height: 500px;
     background-color: #ffffff;
     color: #ffffff;
@@ -25,21 +26,37 @@ body {
     color: #0a0a23;
   }
   
-  #stats {
+  #stats, #balance {
 /*    float: left;*/
     border: 1px solid #0a0a23;
-    padding: 5px;
+    padding: 5px 0 5px 5px;
     color: #0a0a23;
   }
+
+  #balance{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .balance{
+    width: fit-content;
+    padding-right: 10px;
+  }
   
-  #party {
-    float: right;
-    width: 30%;
-    height: 133px;
+  .party {
     border: 1.5px solid #0a0a23;
-    padding: 5px;
+    border-right: 0;
     color: #0a0a23;
     background-color: #ffffff;
+    width: 73.9%;
+    box-sizing: border-box;
+    margin: -6.5px 0;
+    justify-content: center;
+  }
+
+  .hero{
+    display: inline-flex;
   }
 
   #monsterStats {
@@ -71,4 +88,9 @@ body {
     float: right;
     width: 25%; /* Ajusta el ancho según sea necesario */
   }
+
+  .hero{
+    justify-content: space-between;
+  }
+
   

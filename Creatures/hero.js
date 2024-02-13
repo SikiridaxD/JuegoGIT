@@ -2,15 +2,35 @@ class Hero extends Creature {
   mana;
   maxMana;
   specialCost;
-  specialName;
+  special;
+  xp = 0;
   weapon;
   
-  constructor(name, maxHealth, minD, maxD, maxMana, specialCost, specialName) {
-    super(name, maxHealth, minD, maxD);
+  constructor(
+    name,
+    maxHealth, 
+    minDmg, 
+    maxDmg, 
+    basic,
+    maxMana,
+    special, 
+    specialCost,
+    minSpDmg,
+    maxSpDmg,
+    hPotions,
+    mPotions,
+  ) 
+     {
+    super(name, maxHealth, minDmg, maxDmg);
+    this.basic = basic;
     this.mana = maxMana;
     this.maxMana = maxMana;
+    this.special = special;
     this.specialCost = specialCost;
-    this.specialName = specialName;
+    this.minSpDmg = minSpDmg;
+    this.maxSpDmg = maxSpDmg;
+    this.hPotions = hPotions;
+    this.mPotions = mPotions;
   }
 
   enoughToSpecial(){

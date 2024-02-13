@@ -2,119 +2,140 @@ let currentMonster;
 
 //Heros
 const heros = [
+/* {
+    id: 0,
+    name: "[Available]",
+    maxHeatlh: 0,
+    maxMana: 0,
+    hPotions: 0,
+    mPotions: 0,
+    basic: "-",
+    minDmg: 0,
+    maxDmg: 0,
+    special: "-",
+    specialCost: 0,
+    minSpDmg: 0,
+    maxSpDmg: 0,
+  },*/ 
   {
     id: 1,
     name: "Warrior",
-    healthMax: 50,
-    health: 50,
-    mana: 20,
+    maxHeatlh: 50,
     maxMana: 20,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Shortsword",
     minDmg: 1,
     maxDmg: 6,
     special: "Powerful Blow",
     specialCost: 8,
-    minSpecialD: 4,
-    maxSpecialD: 24,
+    minSpDmg: 4,
+    maxSpDmg: 24,
   },
   {
     id: 2,
     name: "Mage",
-    healthMax: 30,
-    health: 30,
-    mana: 50,
+    maxHeatlh: 30,
     maxMana: 50,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Magic missil",
     minDmg: 1,
     maxDmg: 4,
     special: "Fire Ball",
     specialCost: 12,
-    minSpecialD: 8,
-    maxSpecialD: 32,
+    minSpDmg: 8,
+    maxSpDmg: 32,
   },
   {
     id: 3,
     name: "Elf",
-    healthMax: 40,
-    health: 40,
-    mana: 30,
+    maxHeatlh: 40,
+    maxMana: 30,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Short bow",
     minDmg: 1,
     maxDmg: 6,
     special: "Piercing Shot",
     specialCost: 10,
-    minSpecialD: 3,
-    maxSpecialD: 18,
+    minSpDmg: 3,
+    maxSpDmg: 18,
   },
   {
     id: 4,
     name: "Rogue",
-    healthMax: 35,
-    health: 35,
-    mana: 25,
+    maxHeatlh: 35,
+    maxMana: 25,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Dagger",
     minDmg: 1,
     maxDmg: 4,
     special: "Shadow Strike",
     specialCost: 10,
-    minSpecialD: 5,
-    maxSpecialD: 20,
+    minSpDmg: 5,
+    maxSpDmg: 20,
   },
   {
     id: 5,
     name: "Paladin",
-    healthMax: 60,
-    health: 60,
-    mana: 25,
+    maxHeatlh: 60,
+    maxMana: 25,
+    hPotions: 1,
+    mPotions: 0,
     basic: "War axe",
     minDmg: 1,
     maxDmg: 8,
     special: "Divine Shield",
     specialCost: 15,
-    minSpecialD: 3,
-    maxSpecialD: 18,
+    minSpDmg: 3,
+    maxSpDmg: 18,
   },
   {
     id: 6,
     name: "Archer",
-    healthMax: 35,
-    health: 35,
-    mana: 40,
+    maxHeatlh: 35,
+    maxMana: 40,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Long Bow",
     minDmg: 1,
     maxDmg: 8,
     special: "Multishot",
     specialCost: 12,
-    minSpecialD: 2,
-    maxSpecialD: 12,
+    minSpDmg: 2,
+    maxSpDmg: 12,
   },
   {
     id: 7,
     name: "Cleric",
-    healthMax: 45,
-    health: 45,
-    mana: 45,
+    maxHeatlh: 45,
+    maxMana: 45,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Morningstar",
     minDmg: 1,
     maxDmg: 8,
     special: "Healing Light",
     specialCost: 15,
-    minSpecialD: 10,
-    maxSpecialD: 30,
+    minSpDmg: 10,
+    maxSpDmg: 30,
   },
   {
     id: 8,
     name: "Berserker",
-    healthMax: 65,
-    health: 65,
-    mana: 10,
+    maxHeatlh: 65,
+    maxMana: 10,
+    hPotions: 1,
+    mPotions: 0,
     basic: "Dual axes",
     minDmg: 2,
     maxDmg: 12,
     special: "Rage Smash",
     specialCost: 20,
-    minSpecialD: 8,
-    maxSpecialD: 40,
+    minSpDmg: 8,
+    maxSpDmg: 40,
   },
 ];
 //Monstruos
@@ -123,29 +144,29 @@ const monsters = [
     name: "slime",
     level: 2,
     health: 15,
-    minD: 1,
-    maxD: 6,
+    minDmg: 1,
+    maxDmg: 6,
   },
   {
     name: "Orc",
     level: 5,
     health: 30,
-    minD: 3,
-    maxD: 18,
+    minDmg: 3,
+    maxDmg: 18,
   },
   {
     name: "fanged beast",
     level: 8,
     health: 60,
-    minD: 3,
-    maxD: 18,
+    minDmg: 3,
+    maxDmg: 18,
   },
   {
     name: "dragon",
     level: 20,
     health: 300,
-    minD: 5,
-    maxD: 30,
+    minDmg: 5,
+    maxDmg: 30,
   },
 ];
 
@@ -213,54 +234,54 @@ function defeatMonster() {
 
 function checkWeapon() {
   if (Math.random() <= 0.1 && inventory.length !== 1) {
-    multiText(" Your " + inventory.pop() + " breaks.");
+    updateLog(" Your " + inventory.pop() + " breaks.");
     currentWeapon--;
   }
 }
 
 //Monstruo atacando
 function monsterAttacks() {
-  multiText("The " + currentMonster.name + " attacks.");
+  updateLog("The " + currentMonster.name + " attacks.");
   let monsterDamage = currentMonster.getAttackValue();
   currentHero.getDamage(monsterDamage);
-  multiText("You suffer " + monsterDamage + " points of damage");
+  updateLog("You suffer " + monsterDamage + " points of damage");
 }
 
 //Funciones de ataque jugador
 function normalAttack() {
   let damage = 0;
-  multiText("You attack it with your " + currentHero.weapon.name + ".");
+  updateLog("You attack it with your " + currentHero.weapon.name + ".");
   if (isMonsterHit()) {
     damage = currentHero.getAttackValue();
-    multiText("You do " + damage + " damage.");
+    updateLog("You do " + damage + " damage.");
     if (currentHero.isCrit()) {
       damage += currentHero.getAttackValue();
-      multiText("You get a critical. You do " + damage + " of damage.");
+      updateLog("You get a critical. You do " + damage + " of damage.");
     }
     currentMonster.getDamage(damage);
   } else {
-    multiText("You miss.");
+    updateLog("You miss.");
   }
   monsterHealthText.innerText = currentMonster.health;
 }
 
 function specialAttack() {
   if (currentHero.enoughToSpecial()) {
-    multiText(" You perform a " + currentHero.specialName + " attack.");
+    updateLog(" You perform a " + currentHero.specialName + " attack.");
     currentHero.useSpecialAttack();
     if (isMonsterHit()) {
       damage = currentHero.getAttackValue() + currentHero.getSpecialDamage();
-      multiText("You do " + damage + " damage.");
+      updateLog("You do " + damage + " damage.");
       if (currentHero.isCrit()) {
         damage += currentHero.getAttackValue() + currentHero.getSpecialDamage();
-        multiText("You get a critical. You do " + damage + " of damage.");
+        updateLog("You get a critical. You do " + damage + " of damage.");
       }
       currentMonster.getDamage(damage);
     } else {
-      multiText("You miss.");
+      updateLog("You miss.");
     }
   } else {
-    multiText(" You don't have enough mana");
+    updateLog(" You don't have enough mana");
   }
   monsterHealthText.innerText = currentMonster.health;
 }
@@ -279,13 +300,12 @@ function increaseMana() {
 //Funciones de curación
 function usePotion() {
   if (currentHero.potions == 0) {
-    msg = "You don't have any potions.";
+    updateLog("You don't have any potions.");
     return;
   }
   currentHero.potions--;
   poti = Math.floor(Math.random() * (14 - 3 + 1)) + 3;
   currentHero.health += poti;
-  msg = "You drink a potion, restore " + poti + " health points";
-  updateLog();
+  updateLog("You drink a potion, restore " + poti + " health points");
   updateHeroTexts();
 }

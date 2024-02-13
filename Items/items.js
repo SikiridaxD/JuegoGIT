@@ -1,3 +1,21 @@
+class item{
+  name;
+  cost;
+
+  constructor(name, cost){
+    this.name = name;
+    this.cost = cost;
+  }
+}
+
+//En construccion :p
+class hPotion extends item{
+  
+  hRecover(){
+
+  }
+}
+
 class Weapon {
   name;
   minDmg;
@@ -11,3 +29,4 @@ class Weapon {
     this.critical = critical;
   }
 }
+

@@ -21,17 +21,17 @@
         <span class="stat"> <img src="assets/icons/gem_01c.png" width="15"/> Mana: 
           <strong><span id="manaText"> - </span></strong></span>
                     <span class="stat"> <img src="assets/icons/potion_02f.png" width="15"/> H. Potions: 
-            <strong><span id="potionText">0</span></strong></span>
+            <strong><span id="hPotionText">0</span></strong></span>
             <span class="stat"> <img src="assets/icons/potion_02b.png" width="15"/> M. Potions: 
-              <strong><span id="potionText">0</span></strong></span>
+              <strong><span id="mPotionText">0</span></strong></span>
       </div>
       <div id="balance">
         <span class="balance"><legend><strong>Balance</strong></legend> <img src="assets/icons/coin_05d.png" width="15"/> Gold: 
           <strong><span id="goldText">5000</span></strong></span>
         <span class="party"><legend><strong>Party</strong></legend> 
-          <span class="hero"><input type="radio" id="hero1" name="currentHero" checked>[Available]</span>
-          <span class="hero"><input type="radio" id="hero2"  name="currentHero">[Available]</span>
-          <span class="hero"><input type="radio" id="hero3"  name="currentHero">[Available]</span>
+          <span class="hero"><input type="radio" id="hero1" name="currentHero"><span id="hero1Text">[Available]</span></span>
+          <span class="hero"><input type="radio" id="hero2" name="currentHero"><span id="hero2Text">[Available]</span></span>
+          <span class="hero"><input type="radio" id="hero3" name="currentHero"><span id="hero3Text">[Available]</span></span>
         </span>  
       </div>
       <div id="controls">
@@ -49,7 +49,7 @@
       </div>
     </div>
     <script src="./Common/utilities.js"></script>
-    <script src="./Items/weapon.js"></script>
+    <script src="./Items/items.js"></script>
     <script src="./Creatures/creature.js"></script>
     <script src="./Creatures/hero.js"></script>
     <script src="./Creatures/monster.js"></script>

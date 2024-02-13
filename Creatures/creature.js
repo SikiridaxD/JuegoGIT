@@ -3,22 +3,16 @@ class Creature {
   health;
   maxhealth;
   level = 1;
-  minD = 1;
-  maxD = 6;
+  minDmg;
+  maxDmg;
 
-  constructor(name, maxHealth, minD, maxD) {
+  constructor(name, maxHealth, minDmg, maxDmg) {
     this.name = name;
     this.maxhealth = maxHealth;
     this.health = maxHealth;
-    this.minD = minD;
-    this.maxD = maxD;
+    this.minDmg = minDmg;
+    this.maxDmg = maxDmg;
   }
-  name;
-  health;
-  maxhealth;
-  level = 1;
-  minD = 1;
-  maxD = 6
   
   healthDamage(healthValue) {
     if (this.health + healthValue > this.maxhealth) {

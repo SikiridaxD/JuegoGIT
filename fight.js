@@ -127,30 +127,78 @@ const heros = [
 const monsters = [
   {
     id: 0,
-    name: "slime",
+    name: "Slime",
     level: 2,
+    maxHealth: 15,
+    minDmg: 1,
+    maxDmg: 4,
+  },
+  {
+    id: 1,
+    name: "Red slime",
+    level: 2,
+    maxHealth: 25,
+    minDmg: 1,
+    maxDmg: 6,
+  },
+  {
+    id: 2,
+    name: "King slime",
+    level: 2,
+    maxHealth: 50,
+    minDmg: 1,
+    maxDmg: 10,
+  },
+  {
+    id: 3,
+    name: "Fox",
+    level: 8,
     maxHealth: 15,
     minDmg: 1,
     maxDmg: 6,
   },
   {
-    id: 1,
+    id: 4,
+    name: "Fanged Beast",
+    level: 8,
+    maxHealth: 40,
+    minDmg: 2,
+    maxDmg: 12,
+  },
+  {
+    id: 5,
+    name: "Alpha",
+    level: 8,
+    maxHealth: 80,
+    minDmg: 3,
+    maxDmg: 18,
+  },
+  {
+    id: 6,
+    name: "Goblin",
+    level: 5,
+    maxHealth: 20,
+    minDmg: 1,
+    maxDmg: 8,
+  },
+  {
+    id: 7,
     name: "Orc",
     level: 5,
-    maxHealth: 30,
-    minDmg: 3,
-    maxDmg: 18,
-  },
-  {
-    id: 2,
-    name: "fanged beast",
-    level: 8,
     maxHealth: 60,
-    minDmg: 3,
-    maxDmg: 18,
+    minDmg: 2,
+    maxDmg: 16,
   },
   {
-    id: 3,
+    id: 8,
+    name: "Ogre",
+    level: 5,
+    maxHealth: 100,
+    minDmg: 3,
+    maxDmg: 24,
+  },
+  {
+    id: 9,
     name: "dragon",
     level: 20,
     maxHealth: 300,
@@ -178,7 +226,7 @@ function gofightMonster(idMonster) {
     selectedMonster.maxDmg,
     selectedMonster.id
   );
-  update(locations[4]);
+  update(locations[7]);
   monsterStats.style.display = "block";
   monsterName.innerText = currentMonster.name;
   monsterHealthText.innerText = currentMonster.health;
@@ -218,7 +266,7 @@ function defeatMonster() {
   this.console.log(currentMonster);
   gold += Math.floor(currentMonster.level * 6.7);
   currentHero.xp += currentMonster.level;
-  update(locations[5]);
+  update(locations[8]);
 }
 
 function checkWeapon() {
@@ -299,4 +347,3 @@ function usePotion() {
   updateHeroTexts();
 }
 
-console.log(currentMonster)

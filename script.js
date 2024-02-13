@@ -71,24 +71,39 @@ const weapons = [
   { name: "sword", minD: 1, maxD: 10 },
 ];
 
+
+/**
+ * Locations:
+ * 0 = townsquare
+ * 1 = tavern
+ * 2 = store
+ * 3 = explore
+ * 4 = plains
+ * 5 = forest
+ * 6 = cave
+ * 7 = figth 
+ * 8 = kill monster 
+ * 9 = lose
+ * 10 = win
+ */
 const locations = [
   {
     name: "town square",
     "button text": [
       "Go to store",
       "Go to tavern",
-      "Go to cave",
+      "Go to explore",
       "Fight dragon",
     ],
     "button functions": [
       goStore,
       goTavern,
-      goCave,
+      goExplore,
       () => {
-        fightMonster(3);
+        fightMonster(9);
       },
     ],
-    text: 'You are in the town square. You see a sign that says "Store".\n',
+    text: 'You are in the town square. You see a sign that says "Store".',
   },
   {
     name: "tavern",
@@ -109,7 +124,7 @@ const locations = [
         hire(2);
       }, 
       goTown],
-    text: "You are in the tavern. You see a some heros.\n",
+    text: "You are in the tavern. You see a some heros.",
   },
   {
     name: "store",
@@ -120,15 +135,31 @@ const locations = [
       "Go to town square",
     ],
     "button functions": [buyHealth, buyWeapon, buyPotion, goTown],
-    text: "You enter the store.\n",
+    text: "You enter the store.",
   },
   {
-    name: "cave",
+    name: "explore",
+    "button text": [
+      "Go to the plains",
+      "Go to the forest",
+      "Go to the cave",
+      "Go to the town",
+    ],
+    "button functions": [
+      goPlains,
+      goForest,
+      goCave,
+      goTown
+    ],
+    text: "You are exploring, where do you want to go?"
+  },
+  {
+    name: "plains",
     "button text": [
       "Fight slime",
-      "Fight orc",
-      "Fight fanged beast",
-      "Go to town square",
+      "Fight red slime",
+      "Fight King Slime",
+      "Go to explore",
     ],
     "button functions": [
       () => {
@@ -140,9 +171,53 @@ const locations = [
       () => {
         gofightMonster(2);
       },
-      goTown,
+      goExplore,
     ],
-    text: "You enter the cave. You see some monsters.\n",
+    text: "You are on the plains. You see some monsters.",
+  },
+  {
+    name: "Forest",
+    "button text": [
+      "Fight Fox",
+      "Fight Fanged beast",
+      "Fight Alpha",
+      "Go to explore",
+    ],
+    "button functions": [
+      () => {
+        gofightMonster(3);
+      },
+      () => {
+        gofightMonster(4);
+      },
+      () => {
+        gofightMonster(5);
+      },
+      goExplore,
+    ],
+    text: "You are in the forest. You see some monsters.",
+  },
+  {
+    name: "cave",
+    "button text": [
+      "Fight Goblin",
+      "Fight Orc",
+      "Fight Ogre",
+      "Go to Explore",
+    ],
+    "button functions": [
+      () => {
+        gofightMonster(6);
+      },
+      () => {
+        gofightMonster(7);
+      },
+      () => {
+        gofightMonster(8);
+      },
+      goExplore,
+    ],
+    text: "You enter the cave. You see some monsters.",
   },
   {
     name: "fight",
@@ -157,7 +232,7 @@ const locations = [
       usePotion,
       goTown,
     ],
-    text: "You are fighting a monster.\n",
+    text: "You are fighting a monster.",
   },
   {
     name: "kill monster",
@@ -168,7 +243,7 @@ const locations = [
       "Go to town square",
     ],
     "button functions": [fightAgain, goCave, goStore, goTown],
-    text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.\n',
+    text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.',
   },
   {
     name: "lose",
@@ -180,7 +255,7 @@ const locations = [
     name: "win",
     "button text": ["REPLAY?", "REPLAY?", "REPLAY?", "REPLAY?"],
     "button functions": [restart, restart, restart, restart],
-    text: "You defeat the dragon! YOU WIN THE GAME! 🎉\n",
+    text: "You defeat the dragon! YOU WIN THE GAME! 🎉",
   },
 ];
 
@@ -237,17 +312,32 @@ function goStore() {
   scrollA();
 }
 
-function goCave() {
+function goExplore() {
   update(locations[3]);
   scrollA();
 }
 
-function lose() {
+function goPlains() {
+  update(locations[4]);
+  scrollA();
+}
+
+function goForest() {
+  update(locations[5]);
+  scrollA();
+}
+
+function goCave() {
   update(locations[6]);
+  scrollA();
+}
+
+function lose() {
+  update(locations[9]);
 }
 
 function winGame() {
-  update(locations[7]);
+  update(locations[10]);
 }
 
 // initialize buttons
@@ -255,7 +345,7 @@ button1.onclick = goStore;
 button2.onclick = goTavern;
 button3.onclick = goCave;
 button4.onclick = () => {
-  fightMonster(3);
+  fightMonster(9);
 };
 
 function update(location) {

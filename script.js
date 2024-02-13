@@ -238,11 +238,11 @@ const locations = [
     name: "kill monster",
     "button text": [
       "Fight again",
-      "Go to cave",
+      "Go to explore",
       "Go store",
       "Go to town square",
     ],
-    "button functions": [fightAgain, goCave, goStore, goTown],
+    "button functions": [fightAgain, goExplore, goStore, goTown],
     text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.',
   },
   {
@@ -447,6 +447,7 @@ function updateHeroTexts() {
 //Función de actualización de registro
 function updateLog(msg) {
   text.innerText += msg + "\n";
+  text.innerText += "\n"
   text.scrollTop = text.scrollHeight;
 }
 

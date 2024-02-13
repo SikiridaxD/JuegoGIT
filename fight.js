@@ -304,7 +304,7 @@ function normalAttack() {
 
 function specialAttack() {
   if (currentHero.enoughToSpecial()) {
-    updateLog(" You perform a " + currentHero.specialName + " attack.");
+    updateLog(" You perform a " + currentHero.special + " attack.");
     currentHero.useSpecialAttack();
     if (isMonsterHit()) {
       damage = currentHero.getAttackValue() + currentHero.getSpecialDamage();

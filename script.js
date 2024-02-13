@@ -25,19 +25,19 @@ hero3.addEventListener("change", partySelection);
 
 function partySelection() {
   if (hero1.checked) {
-    console.log("Opción 1 está seleccionada");
-    currentHero = 0;
-    updateHeroTexts(currentHero);
+    let currentHeroValue = 0;
+    currentHero = party[0];
+    updateHeroTexts(currentHeroValue);
   }
   if (hero2.checked) {
-    console.log("Opción 2 está seleccionada");
-    currentHero = 1;
-    updateHeroTexts(currentHero);
+    let currentHeroValue = 1;
+    currentHero = party[1];
+    updateHeroTexts(currentHeroValue);
   }
   if (hero3.checked) {
-    console.log("Opción 3 está seleccionada");
-    currentHero = 2;
-    updateHeroTexts(currentHero);
+    let currentHeroValue = 2;
+    currentHero = party[2];
+    updateHeroTexts(currentHeroValue);
   }
 }
 
@@ -132,13 +132,13 @@ const locations = [
     ],
     "button functions": [
       () => {
-        fightMonster(0);
+        gofightMonster(0);
       },
       () => {
-        fightMonster(1);
+        gofightMonster(1);
       },
       () => {
-        fightMonster(2);
+        gofightMonster(2);
       },
       goTown,
     ],
@@ -206,7 +206,7 @@ function heroo(idHero) {
   let dummy = heros[idHero];
   constructHero = new Hero(
     dummy.name,
-    dummy.maxHeatlh,
+    dummy.maxHealth,
     dummy.minDmg,
     dummy.maxDmg,
     dummy.basic,
@@ -219,24 +219,6 @@ function heroo(idHero) {
     dummy.mPotions
   );
   return constructHero;
-}
-
-function hireWarrior() {
-  currentHero = 0;
-  hire(currentHero);
-  scrollA();
-}
-
-function hireMage() {
-  currentHero = 1;
-  hire(currentHero);
-  scrollA();
-}
-
-function hireElf() {
-  currentHero = 2;
-  hire(currentHero);
-  scrollA();
 }
 
 //Funciones de viaje
@@ -361,14 +343,15 @@ function scrollA() {
 }
 
 //Función de actualizacion de textos del heroe
-function updateHeroTexts(idHero) {
+function updateHeroTexts() {
   goldText.innerText = gold;
-  hPotionText.innerText = party[idHero].hPotions;
-  mPotionText.innerText = party[idHero].mPotions;
-  healthText.innerText =  party[idHero].health;
-  manaText.innerText = party[idHero].mana;
-  xpText.innerText = party[idHero].xp;
-  levelText.innerText = party[idHero].level;
+  hPotionText.innerText = currentHero.hPotions;
+  mPotionText.innerText = currentHero.mPotions;
+  healthText.innerText =  currentHero.health;
+  manaText.innerText = currentHero.mana;
+  xpText.innerText = currentHero.xp;
+  levelText.innerText = currentHero.level;
+  classText.innerText = currentHero.name;
 }
 
 //Función de actualización de registro

@@ -37,24 +37,23 @@ class Hero extends Creature {
     return this.mana >= this.specialCost;
   }
 
+  isManaFull() {
+    return this.mana < this.maxMana;
+  }
+
   useSpecialAttack(){
     this.mana -= this.specialCost;   
   }
 
   getSpecialDamage(){
-    return Math.floor(Math.random() * (24 - 4 + 1)) + 4;      
+    return Math.floor(Math.random()*(this.maxSpDmg - this.minSpDmg + 1) + this.minSpDmg);      
   }
-
 
   setWeapon(weapon){
     this.weapon = weapon;
   }
 
-  getAttackValue(){
-    return Math.floor(Math.random() * (this.weapon.maxDmg - this.weapon.minDmg + 1)) + this.weapon.minDmg ;
-  }
-
   isCrit(){
-    return Math.random() < (this.weapon.critical/100);
+    return Math.random() < (0.15);
   }
 }

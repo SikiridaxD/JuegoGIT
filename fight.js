@@ -2,25 +2,10 @@ let currentMonster;
 
 //Heros
 const heros = [
-/* {
-    id: 0,
-    name: "[Available]",
-    maxHeatlh: 0,
-    maxMana: 0,
-    hPotions: 0,
-    mPotions: 0,
-    basic: "-",
-    minDmg: 0,
-    maxDmg: 0,
-    special: "-",
-    specialCost: 0,
-    minSpDmg: 0,
-    maxSpDmg: 0,
-  },*/ 
   {
     id: 1,
     name: "Warrior",
-    maxHeatlh: 50,
+    maxHealth: 50,
     maxMana: 20,
     hPotions: 1,
     mPotions: 0,
@@ -35,7 +20,7 @@ const heros = [
   {
     id: 2,
     name: "Mage",
-    maxHeatlh: 30,
+    maxHealth: 30,
     maxMana: 50,
     hPotions: 1,
     mPotions: 0,
@@ -50,7 +35,7 @@ const heros = [
   {
     id: 3,
     name: "Elf",
-    maxHeatlh: 40,
+    maxHealth: 40,
     maxMana: 30,
     hPotions: 1,
     mPotions: 0,
@@ -65,7 +50,7 @@ const heros = [
   {
     id: 4,
     name: "Rogue",
-    maxHeatlh: 35,
+    maxHealth: 35,
     maxMana: 25,
     hPotions: 1,
     mPotions: 0,
@@ -80,7 +65,7 @@ const heros = [
   {
     id: 5,
     name: "Paladin",
-    maxHeatlh: 60,
+    maxHealth: 60,
     maxMana: 25,
     hPotions: 1,
     mPotions: 0,
@@ -95,7 +80,7 @@ const heros = [
   {
     id: 6,
     name: "Archer",
-    maxHeatlh: 35,
+    maxHealth: 35,
     maxMana: 40,
     hPotions: 1,
     mPotions: 0,
@@ -110,7 +95,7 @@ const heros = [
   {
     id: 7,
     name: "Cleric",
-    maxHeatlh: 45,
+    maxHealth: 45,
     maxMana: 45,
     hPotions: 1,
     mPotions: 0,
@@ -125,7 +110,7 @@ const heros = [
   {
     id: 8,
     name: "Berserker",
-    maxHeatlh: 65,
+    maxHealth: 65,
     maxMana: 10,
     hPotions: 1,
     mPotions: 0,
@@ -141,30 +126,34 @@ const heros = [
 //Monstruos
 const monsters = [
   {
+    id: 0,
     name: "slime",
     level: 2,
-    health: 15,
+    maxHealth: 15,
     minDmg: 1,
     maxDmg: 6,
   },
   {
+    id: 1,
     name: "Orc",
     level: 5,
-    health: 30,
+    maxHealth: 30,
     minDmg: 3,
     maxDmg: 18,
   },
   {
+    id: 2,
     name: "fanged beast",
     level: 8,
-    health: 60,
+    maxHealth: 60,
     minDmg: 3,
     maxDmg: 18,
   },
   {
+    id: 3,
     name: "dragon",
     level: 20,
-    health: 300,
+    maxHealth: 300,
     minDmg: 5,
     maxDmg: 30,
   },
@@ -177,16 +166,17 @@ function fightMonster(idMonster) {
 
 // Revisar relevancia
 function fightAgain() {
-  gofightMonster();
+  gofightMonster(currentMonster.id);
 }
 
 function gofightMonster(idMonster) {
   let selectedMonster = monsters[idMonster];
   currentMonster = new Monster(
     selectedMonster.name,
-    selectedMonster.health,
-    selectedMonster.minD,
-    selectedMonster.maxD
+    selectedMonster.maxHealth,
+    selectedMonster.minDmg,
+    selectedMonster.maxDmg,
+    selectedMonster.id
   );
   update(locations[4]);
   monsterStats.style.display = "block";
@@ -207,7 +197,6 @@ function combat(attackType) {
   }
   increaseMana();
   updateHeroTexts();
-  updateLog();
   checkWeapon();
   verifyBattle();
   scrollA();
@@ -250,7 +239,7 @@ function monsterAttacks() {
 //Funciones de ataque jugador
 function normalAttack() {
   let damage = 0;
-  updateLog("You attack it with your " + currentHero.weapon.name + ".");
+  updateLog("You attack it with your " + currentHero.basic + ".");
   if (isMonsterHit()) {
     damage = currentHero.getAttackValue();
     updateLog("You do " + damage + " damage.");
@@ -292,14 +281,14 @@ function isMonsterHit() {
 
 //Incrementamos el maná
 function increaseMana() {
-  if (isManaFull()) {
+  if (currentHero.isManaFull()) {
     currentHero.mana += 1;
   }
 }
 
 //Funciones de curación
 function usePotion() {
-  if (currentHero.potions == 0) {
+  if (currentHero.hPotions == 0) {
     updateLog("You don't have any potions.");
     return;
   }
@@ -309,3 +298,5 @@ function usePotion() {
   updateLog("You drink a potion, restore " + poti + " health points");
   updateHeroTexts();
 }
+
+console.log(currentMonster)

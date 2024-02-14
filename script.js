@@ -510,6 +510,7 @@ function useItem() {
       currentHero.hPotions -= 1;
       if (currentHero.isHealthFull) {
         currentHero.healing(hPotion.value);
+        updateLog("You restore " + hPotion.value + " health points")
       } else {
         updateLog("Health is full");
       }
@@ -518,6 +519,7 @@ function useItem() {
       currentHero.mPotions -= 1;
       if (currentHero.isManaFull) {
         currentHero.manaRestore(mPotion.value);
+        updateLog("You restore " + mPotion.value + " mana points")
       } else {
         updateLog("Mana is full");
       }

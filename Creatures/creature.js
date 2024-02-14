@@ -13,7 +13,7 @@ class Creature {
     this.maxDmg = maxDmg;
   }
 
-  healthDamage(healthValue) {
+  healing(healthValue) {
     if (this.health + healthValue > this.maxHealth) {
       this.health = this.maxHealth;
     } else {

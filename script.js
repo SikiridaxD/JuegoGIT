@@ -48,11 +48,11 @@ function partySelection() {
 //Inventory
 const miSelect = document.getElementById("miSelect");
 
-miSelect.addEventListener("change", function() {
+miSelect.addEventListener("change", function () {
   const valorSeleccionado = miSelect.value;
   if (valorSeleccionado === "hPotions") {
     it = 0;
-  } 
+  }
   if (valorSeleccionado === "mPotions") {
     it = 1;
   }
@@ -61,7 +61,6 @@ miSelect.addEventListener("change", function() {
   }
   changeQuantity();
 });
-
 
 //Buttons
 const button1 = document.querySelector("#button1");
@@ -101,8 +100,8 @@ const weapons = [
  * 4 = plains
  * 5 = forest
  * 6 = cave
- * 7 = figth 
- * 8 = kill monster 
+ * 7 = figth
+ * 8 = kill monster
  * 9 = lose
  * 10 = win
  */
@@ -136,25 +135,26 @@ const locations = [
     "button functions": [
       () => {
         hire(0);
-      }, 
+      },
       () => {
         hire(1);
-      }, 
+      },
       () => {
         hire(2);
-      }, 
-      goTown],
+      },
+      goTown,
+    ],
     text: "You are in the tavern. You see a some heros.",
   },
   {
     name: "store",
     "button text": [
-      "Buy 10 health (10 gold)",
-      "Buy weapon (30 gold)",
-      "Buy potion (10 gold)",
+      "Buy potion of Healing (10 gold)",
+      "Buy potion of Mana (15 gold)",
+      "Buy bomb (25 gold)",
       "Go to town square",
     ],
-    "button functions": [buyHealth, buyWeapon, buyPotion, goTown],
+    "button functions": [buyHPotion, buyMPotion, buyBomb, goTown],
     text: "You enter the store.",
   },
   {
@@ -165,13 +165,8 @@ const locations = [
       "Go to the cave",
       "Go to the town",
     ],
-    "button functions": [
-      goPlains,
-      goForest,
-      goCave,
-      goTown
-    ],
-    text: "You are exploring, where do you want to go?"
+    "button functions": [goPlains, goForest, goCave, goTown],
+    text: "You are exploring, where do you want to go?",
   },
   {
     name: "plains",
@@ -219,12 +214,7 @@ const locations = [
   },
   {
     name: "cave",
-    "button text": [
-      "Fight Goblin",
-      "Fight Orc",
-      "Fight Ogre",
-      "Go to Explore",
-    ],
+    "button text": ["Fight Goblin", "Fight Orc", "Fight Ogre", "Go to Explore"],
     "button functions": [
       () => {
         gofightMonster(6);
@@ -241,7 +231,7 @@ const locations = [
   },
   {
     name: "fight",
-    "button text": ["Attack", "Special", "Use potion", "Run"],
+    "button text": ["Attack", "Special", "Use Item", "Run"],
     "button functions": [
       () => {
         combat("attack");
@@ -249,7 +239,7 @@ const locations = [
       () => {
         combat("special");
       },
-      usePotion,
+      useItem,
       goTown,
     ],
     text: "You are fighting a monster.",
@@ -280,10 +270,10 @@ const locations = [
 ];
 
 //Hire functions
-function hire(idHero){
-  if (party.length<3){
-    let used =heroo(idHero);
-    party.push(used); 
+function hire(idHero) {
+  if (party.length < 3) {
+    let used = heroo(idHero);
+    party.push(used);
     updateLog(used.name + " hired");
     updatePartyText();
   } else {
@@ -291,7 +281,7 @@ function hire(idHero){
   }
 }
 
-function updatePartyText(){
+function updatePartyText() {
   hero1Text.innerText = party[0].name;
   hero2Text.innerText = party[1].name;
   hero3Text.innerText = party[2].name;
@@ -379,7 +369,7 @@ function update(location) {
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
   button4.onclick = location["button functions"][3];
-  updateLog( location.text);
+  updateLog(location.text);
 }
 
 //Store functions
@@ -410,19 +400,44 @@ function buyWeapon() {
     updateLog("You already have the most powerful weapon!");
     button2.innerText = "Sell weapon for 15 gold";
     button2.onclick = sellWeapon;
-  };
+  }
   updateHeroTexts();
 }
 
-function buyPotion() {
-  if (gold >= 10) {
-    gold -= 10;
-    potions += 1;
-   updateLog("You buy a potion.");
+function buyHPotion() {
+  if (gold >= hPotion.cost) {
+    gold -= hPotion.cost;
+    currentHero.hPotions += 1;
+    updateInventory();
+    updateLog("You buy a potion of Healing. Now you have " + inventory[0] + " potions of healing");
   } else {
-   updateLog("You do not have enough gold to buy potions.");
+    updateLog("You do not have enough gold to buy potions.");
   }
   updateHeroTexts();
+}
+
+function buyMPotion() {
+  if (gold >= mPotion.cost) {
+    gold -= mPotion.cost;
+    currentHero.mPotions += 1;
+    updateInventory();
+    updateLog("You buy a potion of Mana. Now you have " + inventory[1] + " potions of Mana");
+  } else {
+    updateLog("You do not have enough gold to buy potions.");
+  }
+  updateHeroTexts();
+}
+
+function buyBomb() {
+  if (gold >= hPotion.cost) {
+    gold -= hPotion.cost;
+    currentHero.hPotions += 1;
+    updateLog("You buy a potion of Healing.");
+  } else {
+    updateLog("You do not have enough gold to buy potions.");
+  }
+  updateHeroTexts();
+  updateInventory();
 }
 
 //Reisar utilidad
@@ -456,30 +471,30 @@ function scrollA() {
 //Función de actualizacion de textos del heroe
 function updateHeroTexts() {
   goldText.innerText = gold;
-  healthText.innerText =  currentHero.health;
+  healthText.innerText = currentHero.health;
   manaText.innerText = currentHero.mana;
   xpText.innerText = currentHero.xp;
   levelText.innerText = currentHero.level;
   classText.innerText = currentHero.name;
-  quantityText.innerText = quantity
+  quantityText.innerText = quantity;
 }
 
 //Función de actualización de registro
 function updateLog(msg) {
   text.innerText += msg + "\n";
-  text.innerText += "\n"
+  text.innerText += "\n";
   text.scrollTop = text.scrollHeight;
 }
 
 //Actualizar inventario
-function updateInventory(){
+function updateInventory() {
   inventory[0] = currentHero.hPotions;
   inventory[1] = currentHero.mPotions;
   inventory[2] = currentHero.bombs;
-  changeQuantity()
+  changeQuantity();
 }
 
-function  changeQuantity(){
+function changeQuantity() {
   quantity = inventory[it];
   quantityText.innerText = quantity;
 }
@@ -487,4 +502,29 @@ function  changeQuantity(){
 //Devuleve true si falta mana
 function isManaFull() {
   return mana < 20;
+}
+
+function useItem() {
+  if (quantity > 0) {
+    if (it === 0) {
+      currentHero.hPotions -= 1;
+      if (currentHero.isHealthFull) {
+        currentHero.healing(hPotion.value);
+      } else {
+        updateLog("Health is full");
+      }
+    }
+    if (it === 1) {
+      currentHero.mPotions -= 1;
+      if (currentHero.isManaFull) {
+        currentHero.manaRestore(mPotion.value);
+      } else {
+        updateLog("Mana is full");
+      }
+    }
+    updateHeroTexts();
+    updateInventory();
+  } else {
+    updateLog("You have no more of this item left")
+  }
 }

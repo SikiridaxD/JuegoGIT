@@ -35,12 +35,29 @@ class Hero extends Creature {
     this.bombs = bombs;
   }
 
+  manaRestore(restoreValue) {
+    if (this.mana + restoreValue > this.maxMana) {
+      this.mana = this.maxMana;
+    } else {
+      this.mana += restoreValue;
+    }
+  }
+
+  rest(){
+    this.health += Math.floor(Math.random()*(24 - 4 + 1) + 4);
+    this.mana += Math.floor(Math.random()*(12 - 2 + 1) + 2);
+  }
+
   enoughToSpecial(){
     return this.mana >= this.specialCost;
   }
 
   isManaFull() {
     return this.mana < this.maxMana;
+  }
+  
+  isHealthFull() {
+    return this.health < this.maxHealth;
   }
 
   useSpecialAttack(){

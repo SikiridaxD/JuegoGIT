@@ -1,38 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="./styles.css">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>RPG - Dragon Repeller</title>
   </head>
   <body>
     <div id="game">
-      <div id="stats"><legend><strong>Hero</strong></legend>
-        <span class="stat">Class:
-          <strong><span id="classText">None</span></strong></span>
-          <span class="stat"> <img src="assets/icons/book_03g.png" width="15"/> Level:  
-            <strong><span id="levelText"> - </span></strong></span>
-          <span class="stat"> <img src="assets/icons/book_03g.png" width="15"/> XP: 
-            <strong><span id="xpText"> - </span></strong></span>
+      <div id="hero">
+        <legend><strong>Hero</strong></legend>
+        <span class="stat"
+          >Class: <strong><span id="classText">None</span></strong></span
+        >
+        <span class="stat">
+          <img src="assets/icons/book_03g.png" width="15" /> Level:
+          <strong><span id="levelText"> - </span></strong></span
+        >
+        <span class="stat">
+          <img src="assets/icons/book_03g.png" width="15" /> XP:
+          <strong><span id="xpText"> - </span></strong></span
+        >
       </div>
       <div id="stats"><legend><strong>Stats</strong></legend>
-        <span class="stat"> <img src="assets/icons/gem_01d.png" width="15"/> Health: 
+        <span class="stat">
+          <img src="assets/icons/gem_01d.png" width="15" /> Health:
           <strong><span id="healthText"> - </span></strong></span>
-        <span class="stat"> <img src="assets/icons/gem_01c.png" width="15"/> Mana: 
+        <span class="stat">
+          <img src="assets/icons/gem_01c.png" width="15" /> Mana:
           <strong><span id="manaText"> - </span></strong></span>
-                    <span class="stat"> <img src="assets/icons/potion_02f.png" width="15"/> H. Potions: 
-            <strong><span id="hPotionText">0</span></strong></span>
-            <span class="stat"> <img src="assets/icons/potion_02b.png" width="15"/> M. Potions: 
-              <strong><span id="mPotionText">0</span></strong></span>
+        <span id="inventory"><legend><strong>Inventory</strong></legend>
+          <select id="miSelect">
+            <option value="hPotions">H. Potion</option>
+            <option value="mPotions">M. Potion</option>
+            <option value="bombs">Bomb</option>
+          </select>
+          <span>: <span id="quantityText">0</span></span>
+        </span>
       </div>
       <div id="balance">
-        <span class="balance"><legend><strong>Balance</strong></legend> <img src="assets/icons/coin_05d.png" width="15"/> Gold: 
-          <strong><span id="goldText">5000</span></strong></span>
-        <span class="party"><legend><strong>Party</strong></legend> 
-          <span class="hero"><input type="radio" id="hero1" name="currentHero"><span id="hero1Text">[Available]</span></span>
-          <span class="hero"><input type="radio" id="hero2" name="currentHero"><span id="hero2Text">[Available]</span></span>
-          <span class="hero"><input type="radio" id="hero3" name="currentHero"><span id="hero3Text">[Available]</span></span>
-        </span>  
+        <span class="balance"
+          ><legend><strong>Balance</strong></legend>
+          <img src="assets/icons/coin_05d.png" width="15" /> Gold:
+          <strong><span id="goldText">5000</span></strong></span
+        >
+        <span class="party"
+          ><legend><strong>Party</strong></legend>
+          <span class="hero"
+            ><input type="radio" id="hero1" name="currentHero" /><span
+              id="hero1Text"
+              >[Available]</span
+            ></span
+          >
+          <span class="hero"
+            ><input type="radio" id="hero2" name="currentHero" /><span
+              id="hero2Text"
+              >[Available]</span
+            ></span
+          >
+          <span class="hero"
+            ><input type="radio" id="hero3" name="currentHero" /><span
+              id="hero3Text"
+              >[Available]</span
+            ></span
+          >
+        </span>
       </div>
       <div id="controls">
         <button id="button1">Go to store</button>
@@ -41,11 +72,18 @@
         <button id="button4">Fight dragon</button>
       </div>
       <div id="monsterStats">
-        <span class="stat">Monster Name: <strong><span id="monsterName"></span></strong></span>
-        <span class="stat">Health: <strong><span id="monsterHealth"></span></strong></span>
+        <span class="stat"
+          >Monster Name: <strong><span id="monsterName"></span></strong
+        ></span>
+        <span class="stat"
+          >Health: <strong><span id="monsterHealth"></span></strong
+        ></span>
       </div>
       <div id="text">
-        Welcome to Dragon Repeller. You must defeat the dragon that is preventing people from leaving the town. You are in the town square. Go to the tavern to hire a hero to help you on your journey. Use the buttons above.
+        Welcome to Dragon Repeller. You must defeat the dragon that is
+        preventing people from leaving the town. You are in the town square. Go
+        to the tavern to hire a hero to help you on your journey. Use the
+        buttons above.
       </div>
     </div>
     <script src="./Common/utilities.js"></script>

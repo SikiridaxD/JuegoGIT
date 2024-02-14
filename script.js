@@ -7,10 +7,12 @@ let mana = 0;
 let currentWeapon = 0;
 let fighting;
 let monsterHealth;
-let inventory = ["stick"];
+let inventory = [0, 0, 0];
 let currentHero;
 let msg = "";
 let party = [];
+let quantity = inventory[0];
+let it = 0;
 
 //Party
 const hero1Text = document.querySelector("#hero1Text");
@@ -28,18 +30,38 @@ function partySelection() {
     let currentHeroValue = 0;
     currentHero = party[0];
     updateHeroTexts(currentHeroValue);
+    updateInventory();
   }
   if (hero2.checked) {
     let currentHeroValue = 1;
     currentHero = party[1];
     updateHeroTexts(currentHeroValue);
+    updateInventory();
   }
   if (hero3.checked) {
     let currentHeroValue = 2;
     currentHero = party[2];
     updateHeroTexts(currentHeroValue);
+    updateInventory();
   }
 }
+//Inventory
+const miSelect = document.getElementById("miSelect");
+
+miSelect.addEventListener("change", function() {
+  const valorSeleccionado = miSelect.value;
+  if (valorSeleccionado === "hPotions") {
+    it = 0;
+  } 
+  if (valorSeleccionado === "mPotions") {
+    it = 1;
+  }
+  if (valorSeleccionado === "bombs") {
+    it = 2;
+  }
+  changeQuantity();
+});
+
 
 //Buttons
 const button1 = document.querySelector("#button1");
@@ -55,8 +77,7 @@ const xpText = document.querySelector("#xpText");
 //Stats
 const healthText = document.querySelector("#healthText");
 const manaText = document.querySelector("#manaText");
-const hPotionText = document.querySelector("#hPotionText");
-const mPotionText = document.querySelector("#mPotionText");
+const quantityText = document.querySelector("#quantityText");
 //Monsters
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
@@ -70,7 +91,6 @@ const weapons = [
   { name: "claw hammer", minD: 1, maxD: 8 },
   { name: "sword", minD: 1, maxD: 10 },
 ];
-
 
 /**
  * Locations:
@@ -291,7 +311,8 @@ function heroo(idHero) {
     dummy.minSpDmg,
     dummy.maxSpDmg,
     dummy.hPotions,
-    dummy.mPotions
+    dummy.mPotions,
+    dummy.bombs
   );
   return constructHero;
 }
@@ -435,13 +456,12 @@ function scrollA() {
 //Función de actualizacion de textos del heroe
 function updateHeroTexts() {
   goldText.innerText = gold;
-  hPotionText.innerText = currentHero.hPotions;
-  mPotionText.innerText = currentHero.mPotions;
   healthText.innerText =  currentHero.health;
   manaText.innerText = currentHero.mana;
   xpText.innerText = currentHero.xp;
   levelText.innerText = currentHero.level;
   classText.innerText = currentHero.name;
+  quantityText.innerText = quantity
 }
 
 //Función de actualización de registro
@@ -449,6 +469,19 @@ function updateLog(msg) {
   text.innerText += msg + "\n";
   text.innerText += "\n"
   text.scrollTop = text.scrollHeight;
+}
+
+//Actualizar inventario
+function updateInventory(){
+  inventory[0] = currentHero.hPotions;
+  inventory[1] = currentHero.mPotions;
+  inventory[2] = currentHero.bombs;
+  changeQuantity()
+}
+
+function  changeQuantity(){
+  quantity = inventory[it];
+  quantityText.innerText = quantity;
 }
 
 //Devuleve true si falta mana

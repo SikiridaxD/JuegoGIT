@@ -19,6 +19,7 @@ class Hero extends Creature {
     maxSpDmg,
     hPotions,
     mPotions,
+    bombs
   ) 
      {
     super(name, maxHealth, minDmg, maxDmg);
@@ -31,6 +32,7 @@ class Hero extends Creature {
     this.maxSpDmg = maxSpDmg;
     this.hPotions = hPotions;
     this.mPotions = mPotions;
+    this.bombs = bombs;
   }
 
   enoughToSpecial(){

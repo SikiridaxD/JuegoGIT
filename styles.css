@@ -27,17 +27,35 @@ body {
 }
 
 #stats,
-#balance {
+#balance,
+#hero  {
   /*    float: left;*/
   border: 1px solid #0a0a23;
   padding: 5px 0 5px 5px;
   color: #0a0a23;
 }
 
+#balance{
+  border-bottom: 0 ;
+  border-right: 0;
+}
+
+#stats{
+  border-top: 0;
+  border-bottom: 0;
+  display:flex;
+}
+
+#inventory{
+  display: flex;
+  padding-left: 10%;
+}
+
 #balance {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  border-right: 1px solid #0a0a23;
 }
 
 .balance {
@@ -45,14 +63,26 @@ body {
   padding-right: 10px;
 }
 
+#miSelect {
+  appearance: none; 
+  -webkit-appearance: none; 
+  -moz-appearance: none; 
+  padding: 0; 
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color:#ff9900;
+  width: 80px;
+  text-align: center;
+  font-size: 15px;
+}
+
 .party {
-  border: 1.5px solid #0a0a23;
-  border-right: 0;
+  border-left: 1px solid #0a0a23;
   color: #0a0a23;
   background-color: #ffffff;
-  width: 73.9%;
+  width: 70%;
   box-sizing: border-box;
-  margin: -6.5px 0;
+  margin: -5px 0;
   justify-content: center;
 }
 

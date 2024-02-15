@@ -4,7 +4,6 @@ class Creature {
   maxHealth;
   level = 1;
 
-
   constructor(name, maxHealth, minDmg, maxDmg) {
     this.name = name;
     this.maxHealth = maxHealth;
@@ -32,7 +31,8 @@ class Creature {
 
   // Obtenemos un valor de daño entre los rangos min-max
   getAttackValue() {
-    return Math.floor(Math.random()*(this.maxDmg - this.minDmg + 1) + this.minDmg);
+    return rng(this.minDmg, this.maxDmg)
+    //return Math.floor(Math.random()*(this.maxDmg - this.minDmg + 1) + this.minDmg);
   }
 }
 

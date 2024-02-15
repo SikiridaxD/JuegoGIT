@@ -13,6 +13,7 @@ let msg = "";
 let party = [];
 let quantity = inventory[0];
 let it = 0;
+let pool = [0, 0, 0];
 
 //Party
 const hero1Text = document.querySelector("#hero1Text");
@@ -67,6 +68,8 @@ const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
 const button4 = document.querySelector("#button4");
+//Submenu
+const submenu = document.getElementById("submenu");
 //Balance
 const goldText = document.querySelector("#goldText");
 //Hero
@@ -126,24 +129,8 @@ const locations = [
   },
   {
     name: "tavern",
-    "button text": [
-      "Hire warrior",
-      "Hire mage",
-      "Hire elf",
-      "Go to town square",
-    ],
-    "button functions": [
-      () => {
-        hire(0);
-      },
-      () => {
-        hire(1);
-      },
-      () => {
-        hire(2);
-      },
-      goTown,
-    ],
+    "button text": ["Hire", "Rest", "Bet", "Go to town square"],
+    "button functions": [submenuDisplay, rest, bet, goTown],
     text: "You are in the tavern. You see a some heros.",
   },
   {
@@ -281,10 +268,22 @@ function hire(idHero) {
   }
 }
 
+function submenuDisplay() {
+  if (submenu.style.display === "none" || submenu.style.display === "") {
+    heroPool();
+    updateSubmenu();
+    submenu.style.display = "block";
+    button1.textContent = "Close";
+  } else {
+    submenu.style.display = "none";
+    button1.textContent = "Hire";
+  }
+}
+
 function updatePartyText() {
-  hero1Text.innerText = party[0].name;
-  hero2Text.innerText = party[1].name;
-  hero3Text.innerText = party[2].name;
+  if (party[0]) hero1Text.innerText = party[0].name;
+  if (party[1]) hero2Text.innerText = party[1].name;
+  if (party[2]) hero3Text.innerText = party[2].name;
 }
 
 function heroo(idHero) {
@@ -359,6 +358,10 @@ button4.onclick = () => {
   fightMonster(9);
 };
 
+function rest() {
+  currentHero.rest();
+}
+
 function update(location) {
   monsterStats.style.display = "none";
   button1.innerText = location["button text"][0];
@@ -370,6 +373,29 @@ function update(location) {
   button3.onclick = location["button functions"][2];
   button4.onclick = location["button functions"][3];
   updateLog(location.text);
+}
+
+function updateSubmenu() {
+  let h1 = heros[pool[0]];
+  let h2 = heros[pool[1]];
+  let h3 = heros[pool[2]];
+  console.log(h1);
+  const subbutton1 = document.querySelector("#subbutton1");
+  const subbutton2 = document.querySelector("#subbutton2");
+  const subbutton3 = document.querySelector("#subbutton3");
+  //const subbutton4 = document.querySelector("#subbutton4");
+  subbutton1.textContent = h1.name;
+  subbutton2.textContent = h2.name;
+  subbutton3.textContent = h3.name;
+  subbutton1.onclick = () => {
+    hire(pool[0]);
+  };
+  subbutton2.onclick = () => {
+    hire(pool[1]);
+  };
+  subbutton3.onclick = () => {
+    hire(pool[2]);
+  };
 }
 
 //Store functions
@@ -409,7 +435,11 @@ function buyHPotion() {
     gold -= hPotion.cost;
     currentHero.hPotions += 1;
     updateInventory();
-    updateLog("You buy a potion of Healing. Now you have " + inventory[0] + " potions of healing");
+    updateLog(
+      "You buy a potion of Healing. Now you have " +
+        inventory[0] +
+        " potions of healing"
+    );
   } else {
     updateLog("You do not have enough gold to buy potions.");
   }
@@ -421,7 +451,11 @@ function buyMPotion() {
     gold -= mPotion.cost;
     currentHero.mPotions += 1;
     updateInventory();
-    updateLog("You buy a potion of Mana. Now you have " + inventory[1] + " potions of Mana");
+    updateLog(
+      "You buy a potion of Mana. Now you have " +
+        inventory[1] +
+        " potions of Mana"
+    );
   } else {
     updateLog("You do not have enough gold to buy potions.");
   }
@@ -464,10 +498,6 @@ function restart() {
   goTown();
 }
 
-function scrollA() {
-  text.scrollTop = text.scrollHeight;
-}
-
 //Función de actualizacion de textos del heroe
 function updateHeroTexts() {
   goldText.innerText = gold;
@@ -486,6 +516,9 @@ function updateLog(msg) {
   text.scrollTop = text.scrollHeight;
 }
 
+function scrollA() {
+  text.scrollTop = text.scrollHeight;
+}
 //Actualizar inventario
 function updateInventory() {
   inventory[0] = currentHero.hPotions;
@@ -499,18 +532,13 @@ function changeQuantity() {
   quantityText.innerText = quantity;
 }
 
-//Devuleve true si falta mana
-function isManaFull() {
-  return mana < 20;
-}
-
 function useItem() {
   if (quantity > 0) {
     if (it === 0) {
       currentHero.hPotions -= 1;
       if (currentHero.isHealthFull) {
         currentHero.healing(hPotion.value);
-        updateLog("You restore " + hPotion.value + " health points")
+        updateLog("You restore " + hPotion.value + " health points");
       } else {
         updateLog("Health is full");
       }
@@ -519,7 +547,7 @@ function useItem() {
       currentHero.mPotions -= 1;
       if (currentHero.isManaFull) {
         currentHero.manaRestore(mPotion.value);
-        updateLog("You restore " + mPotion.value + " mana points")
+        updateLog("You restore " + mPotion.value + " mana points");
       } else {
         updateLog("Mana is full");
       }
@@ -527,6 +555,26 @@ function useItem() {
     updateHeroTexts();
     updateInventory();
   } else {
-    updateLog("You have no more of this item left")
+    updateLog("You have no more of this item left");
   }
+}
+
+function heroPool() {
+  pool[0] = Math.floor(Math.random() * 8);
+  pool[1] = Math.floor(Math.random() * 8);
+  pool[2] = Math.floor(Math.random() * 8);
+}
+
+function resetPool() {
+  pool = [];
+}
+
+function bet() {
+  if (Math.random < 0.5) {
+    gold += 10;
+    updateHeroTexts();
+    return;
+  }
+  gold -= 5;
+  updateHeroTexts();
 }

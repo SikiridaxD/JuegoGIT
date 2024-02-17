@@ -5,7 +5,7 @@ class Rogue extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana = 25;
   mana = this.maxMana;
   hPotions = 1;
@@ -22,5 +22,5 @@ class Rogue extends Hero {
 
 };
 
-let LaSombra = new Rogue();
+let rogue = new Rogue();
 

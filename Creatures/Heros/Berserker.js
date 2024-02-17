@@ -5,7 +5,7 @@ class Berserker extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana = 10;
   mana = this.maxMana;
   hPotions = 2;
@@ -22,5 +22,5 @@ class Berserker extends Hero {
 
 };
 
-let Ramiro = new Berserker();
+let berserker = new Berserker();
 

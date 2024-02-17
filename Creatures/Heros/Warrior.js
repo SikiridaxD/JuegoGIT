@@ -5,7 +5,7 @@ class Warrior extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana = 20;
   mana = this.maxMana;
   hPotions = 1;
@@ -22,6 +22,4 @@ class Warrior extends Hero {
 
 };
 
-let ThiLing = new Warrior();
-
-console.log(ThiLing);
+let warrior = new Warrior();

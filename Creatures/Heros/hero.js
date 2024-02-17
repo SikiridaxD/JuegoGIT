@@ -4,7 +4,8 @@ class Hero extends Creature {
   specialCost;
   special;
   xp = 0;
-  weapon;
+  defense;
+  mDefense;
   
   constructor(
     name,
@@ -74,5 +75,11 @@ class Hero extends Creature {
 
   isCrit(){
     return Math.random() < (0.15);
+  }
+
+  equipArmor(obj){
+    this.armor = obj.name;
+    this.defense = obj.defense;
+    this.mDefense = obj.mDefense;
   }
 }

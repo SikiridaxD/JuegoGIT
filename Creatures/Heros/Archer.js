@@ -5,7 +5,7 @@ class Archer extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana = 40;
   mana = this.maxMana;
   hPotions = 1;
@@ -22,5 +22,5 @@ class Archer extends Hero {
 
 };
 
-let Legolas = new Archer();
+let archer = new Archer();
 

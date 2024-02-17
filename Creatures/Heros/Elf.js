@@ -5,7 +5,7 @@ class Elf extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana = 30;
   mana = this.maxMana;
   hPotions = 1;
@@ -22,4 +22,4 @@ class Elf extends Hero {
 
 };
 
-let Ralo = new Elf();
+let elf = new Elf();

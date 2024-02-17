@@ -63,6 +63,10 @@ miSelect.addEventListener("change", function () {
   changeQuantity();
 });
 
+//armor
+const armorText = document.querySelector("#armorText");
+const defenseText = document.querySelector("#defenseText");
+
 //Buttons
 const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
@@ -416,9 +420,9 @@ function heroPool() {
 //Hire functions
 function hire(idHero) {
   if (party.length < 3) {
-    let used = heroo(idHero);
+    let used = heros[idHero];
     party.push(used);
-    updateLog(used.name + " hired");
+    updateLog(used.profession + " hired");
     updatePartyText();
   } else {
     updateLog("Your party is full");
@@ -426,9 +430,9 @@ function hire(idHero) {
 }
 
 function updatePartyText() {
-  if (party[0]) hero1Text.innerText = party[0].name;
-  if (party[1]) hero2Text.innerText = party[1].name;
-  if (party[2]) hero3Text.innerText = party[2].name;
+  if (party[0]) hero1Text.innerText = party[0].profession;
+  if (party[1]) hero2Text.innerText = party[1].profession;
+  if (party[2]) hero3Text.innerText = party[2].profession;
 }
 
 function updateSubmenu() {
@@ -440,9 +444,9 @@ function updateSubmenu() {
   const subbutton2 = document.querySelector("#subbutton2");
   const subbutton3 = document.querySelector("#subbutton3");
   //const subbutton4 = document.querySelector("#subbutton4");
-  subbutton1.textContent = h1.name;
-  subbutton2.textContent = h2.name;
-  subbutton3.textContent = h3.name;
+  subbutton1.textContent = h1.profession;
+  subbutton2.textContent = h2.profession;
+  subbutton3.textContent = h3.profession;
   subbutton1.onclick = () => {
     hire(pool[0]);
   };
@@ -452,26 +456,6 @@ function updateSubmenu() {
   subbutton3.onclick = () => {
     hire(pool[2]);
   };
-}
-
-function heroo(idHero) {
-  let dummy = heros[idHero];
-  constructHero = new Hero(
-    dummy.name,
-    dummy.maxHealth,
-    dummy.minDmg,
-    dummy.maxDmg,
-    dummy.basic,
-    dummy.maxMana,
-    dummy.special,
-    dummy.specialCost,
-    dummy.minSpDmg,
-    dummy.maxSpDmg,
-    dummy.hPotions,
-    dummy.mPotions,
-    dummy.bombs
-  );
-  return constructHero;
 }
 
 function submenuDisplay() {
@@ -564,6 +548,8 @@ function updateHeroTexts() {
   manaText.innerText = currentHero.mana;
   xpText.innerText = currentHero.xp;
   levelText.innerText = currentHero.level;
-  classText.innerText = currentHero.name;
+  classText.innerText = currentHero.profession;
   quantityText.innerText = quantity;
+  armorText.innerText = currentHero.armor;
+  defenseText.innerText = currentHero.defense;
 }

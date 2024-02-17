@@ -5,7 +5,7 @@ class Cleric extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana = 45;
   mana = this.maxMana;
   hPotions = 0;
@@ -22,5 +22,5 @@ class Cleric extends Hero {
 
 };
 
-let Pedrito = new Cleric();
+let cleric = new Cleric();
 

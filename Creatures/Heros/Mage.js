@@ -5,7 +5,7 @@ class Mage extends Hero {
   health = this.maxHealth;
   defense = 1;
   mDefense = 0;
-  armor;
+  armor= ["Clothes"];
   maxMana= 50;
   mana = this.maxMana;
   hPotions = 0;
@@ -22,6 +22,4 @@ class Mage extends Hero {
 
 };
 
-let Gandalf = new Mage();
-
-console.log(Gandalf);
+let mage = new Mage();
